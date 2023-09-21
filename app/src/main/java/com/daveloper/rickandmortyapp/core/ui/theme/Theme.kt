@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.ui.theme
+package com.daveloper.rickandmortyapp.core.ui.theme
 
 import android.app.Activity
 import android.os.Build

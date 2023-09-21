@@ -1,8 +1,8 @@
-package com.daveloper.rickandmortyapp.di
+package com.daveloper.rickandmortyapp.core.di
 
 import android.app.Application
 import com.daveloper.rickandmortyapp.R
-import com.daveloper.rickandmortyapp.utils.RetrofitUtils
+import com.daveloper.rickandmortyapp.core.utils.RetrofitUtils
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

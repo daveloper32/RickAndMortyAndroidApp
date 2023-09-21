@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.ui
+package com.daveloper.rickandmortyapp.core.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.daveloper.rickandmortyapp.R
-import com.daveloper.rickandmortyapp.ui.theme.RickMortyAppTheme
+import com.daveloper.rickandmortyapp.core.ui.theme.RickMortyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
