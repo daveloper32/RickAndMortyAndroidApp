@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.core.utils
+package com.daveloper.rickandmortyapp.core.utils.okhttp
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
