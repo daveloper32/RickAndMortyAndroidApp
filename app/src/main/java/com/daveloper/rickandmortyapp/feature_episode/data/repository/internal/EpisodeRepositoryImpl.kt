@@ -1,43 +1,43 @@
-package com.daveloper.rickandmortyapp.feature_character.data.repository.internal
+package com.daveloper.rickandmortyapp.feature_episode.data.repository.internal
 
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
-import com.daveloper.rickandmortyapp.core.utils.constants.Constants
-import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
-import com.daveloper.rickandmortyapp.feature_character.data.network.CharacterApiService
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.CharacterRepository
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.CharacterData
 import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
-import com.daveloper.rickandmortyapp.feature_character.utils.conversion.CharacterUtils.toCharacterData
+import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
+import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
+import com.daveloper.rickandmortyapp.feature_episode.data.network.EpisodeApiService
+import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
+import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.exceptions.EpisodeRepositoryException
+import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model.EpisodeData
+import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.EpisodeUtils.toEpisodeData
 import javax.inject.Inject
 
-class CharacterRepositoryImpl @Inject constructor(
-    private val apiService: CharacterApiService,
-): CharacterRepository {
+class EpisodeRepositoryImpl @Inject constructor(
+    private val apiService: EpisodeApiService,
+): EpisodeRepository {
     companion object {
-        private val TAG = CharacterRepository::class.java.name
+        private val TAG = EpisodeRepository::class.java.name
     }
 
-    override suspend fun getCharactersFromApiByPage(
+    override suspend fun getEpisodesFromApiByPage(
         pageNumber: Int
-    ): RepositoryResult<Pair<PageInfoData?, List<CharacterData>>> {
+    ): RepositoryResult<Pair<PageInfoData?, List<EpisodeData>>> {
         return try {
             if (pageNumber == Constants.INVALID_INT) {
-                throw CharacterRepositoryException
+                throw EpisodeRepositoryException
                     .InvalidInputData("The input page number is invalid")
             }
-            val result = apiService.getCharactersByPage(
+            val result = apiService.getEpisodesByPage(
                 page = pageNumber
             ).await()
             if (result.results.isNullOrEmpty()) {
-                throw CharacterRepositoryException
+                throw EpisodeRepositoryException
                     .NotFoundData("The data found from API is null or empty")
             }
             RepositoryResult.Success(
                 Pair(
                     result.info?.toPageInfoData(),
-                    result.results.mapNotNull { it.toCharacterData() }
+                    result.results.mapNotNull { it.toEpisodeData() }
                 )
 
             )
@@ -46,14 +46,14 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllCharactersFromApi(
+    override suspend fun getAllEpisodesFromApi(
 
-    ): RepositoryResult<List<CharacterData>> {
+    ): RepositoryResult<List<EpisodeData>> {
         return try {
             var page: Int = 1
-            val allCharacters: MutableList<CharacterData> = mutableListOf()
+            val allCharacters: MutableList<EpisodeData> = mutableListOf()
             while (page != Constants.INVALID_INT) {
-                val resultByPage = getCharactersFromApiByPage(
+                val resultByPage = getEpisodesFromApiByPage(
                     page
                 )
                 if (resultByPage is RepositoryResult.Success) {
@@ -66,7 +66,7 @@ class CharacterRepositoryImpl @Inject constructor(
                 }
             }
             if (allCharacters.isEmpty()) {
-                throw CharacterRepositoryException
+                throw EpisodeRepositoryException
                     .NotFoundData("The data found from API is null or empty")
             }
             RepositoryResult.Success(allCharacters)
@@ -75,37 +75,37 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharactersByIdFromApi(
+    override suspend fun getEpisodesByIdFromApi(
         ids: List<Int>
-    ): RepositoryResult<List<CharacterData>> {
+    ): RepositoryResult<List<EpisodeData>> {
         return try {
             if (ids.isEmpty()) {
-                throw CharacterRepositoryException
+                throw EpisodeRepositoryException
                     .InvalidInputData("The input ids list is empty")
             }
             if (ids.size == 1) {
-                val result = apiService.getCharacterById(
+                val result = apiService.getEpisodeById(
                     id = ids.first()
                 ).await()
                 if (result == null) {
-                    throw CharacterRepositoryException
+                    throw EpisodeRepositoryException
                         .NotFoundData("The data found from API is null or empty")
                 }
                 RepositoryResult.Success(
                     listOf(
-                        result.toCharacterData()
+                        result.toEpisodeData()
                     ).mapNotNull { it }
                 )
             } else {
-                val result = apiService.getCharactersById(
+                val result = apiService.getEpisodesById(
                     ids = ids.toStringJoinedWithCommas()
                 ).await()
                 if (result.isNullOrEmpty()) {
-                    throw CharacterRepositoryException
+                    throw EpisodeRepositoryException
                         .NotFoundData("The data found from API is null or empty")
                 }
                 RepositoryResult.Success(
-                    result.mapNotNull { it.toCharacterData() }
+                    result.mapNotNull { it.toEpisodeData() }
                 )
             }
         } catch (e: Exception) {

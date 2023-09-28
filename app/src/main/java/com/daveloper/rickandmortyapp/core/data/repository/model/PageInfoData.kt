@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_character.data.repository.external.model
+package com.daveloper.rickandmortyapp.core.data.repository.model
 
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 

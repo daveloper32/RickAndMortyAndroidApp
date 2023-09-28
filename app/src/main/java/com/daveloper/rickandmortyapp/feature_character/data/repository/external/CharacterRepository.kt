@@ -3,7 +3,7 @@ package com.daveloper.rickandmortyapp.feature_character.data.repository.external
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.CharacterData
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.PageInfoData
+import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 
 interface CharacterRepository {
     /** Function that gets a list of characters from a page from the API

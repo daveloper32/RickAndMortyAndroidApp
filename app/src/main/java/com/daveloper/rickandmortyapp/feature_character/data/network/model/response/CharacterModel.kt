@@ -19,8 +19,8 @@ data class CharacterModel (
     @SerializedName("gender") val gender: String? = EMPTY_STR,
     @SerializedName("origin") val origin: LocationBasicModel? = LocationBasicModel(),
     @SerializedName("location") val location: LocationBasicModel? = LocationBasicModel(),
+    @SerializedName("created") val created: String? = EMPTY_STR,
     @SerializedName("image") val image: String? = EMPTY_STR,
     @SerializedName("episode") val episode: List<String>? = emptyList(),
     @SerializedName("url") val url: String? = EMPTY_STR,
-    @SerializedName("created") val created: String? = EMPTY_STR,
 )

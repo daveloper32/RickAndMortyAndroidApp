@@ -1,9 +1,9 @@
-package com.daveloper.rickandmortyapp.feature_character.utils.conversion
+package com.daveloper.rickandmortyapp.core.utils.conversion
 
 import com.daveloper.rickandmortyapp.core.data.network.response.InfoModel
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.string.StringUtils.getIdFromUrl
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.PageInfoData
+import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 
 object PageInfoUtils {
     fun InfoModel.toPageInfoData(): PageInfoData = PageInfoData(
