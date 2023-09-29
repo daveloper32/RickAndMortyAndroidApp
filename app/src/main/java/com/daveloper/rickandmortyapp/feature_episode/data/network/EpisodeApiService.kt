@@ -22,7 +22,7 @@ interface EpisodeApiService {
 
     /**Function to get some Rick & Morty [EpisodeModel] by id from the API.
      *
-     * @param id ([Int] type): the number of the character id to request the data.
+     * @param id ([Int] type): the number of the episode id to request the data.
      * @return [EpisodeModel]*/
     @GET("episode/{id}")
     fun getEpisodeById(

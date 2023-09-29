@@ -9,6 +9,9 @@ import com.daveloper.rickandmortyapp.feature_character.data.repository.internal.
 import com.daveloper.rickandmortyapp.feature_episode.data.network.EpisodeApiService
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.internal.EpisodeRepositoryImpl
+import com.daveloper.rickandmortyapp.feature_location.data.network.LocationApiService
+import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
+import com.daveloper.rickandmortyapp.feature_location.data.repository.internal.LocationRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +42,16 @@ object AppModule {
             baseURL = app.getString(R.string.provider_url)
         )
 
+    /**DI function that provides a singleton of a [LocationApiService]*/
+    @Provides
+    @Singleton
+    fun provideLocationApiService(
+        app: Application
+    ): LocationApiService = RetrofitUtils
+        .createWebService<LocationApiService>(
+            baseURL = app.getString(R.string.provider_url)
+        )
+
     /**DI function that provides a singleton of a [CharacterRepository]*/
     @Provides
     @Singleton
@@ -52,4 +65,11 @@ object AppModule {
     fun provideEpisodeRepository(
         episodeRepositoryImpl: EpisodeRepositoryImpl
     ): EpisodeRepository = episodeRepositoryImpl
+
+    /**DI function that provides a singleton of a [LocationRepository]*/
+    @Provides
+    @Singleton
+    fun provideLocationRepository(
+        locationRepositoryImpl: LocationRepositoryImpl
+    ): LocationRepository = locationRepositoryImpl
 }

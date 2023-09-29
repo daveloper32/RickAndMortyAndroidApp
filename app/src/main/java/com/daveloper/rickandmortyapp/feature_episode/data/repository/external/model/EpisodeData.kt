@@ -1,6 +1,5 @@
 package com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model
 
-import com.daveloper.rickandmortyapp.core.data.repository.model.LocationBasicData
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 
 data class EpisodeData(
