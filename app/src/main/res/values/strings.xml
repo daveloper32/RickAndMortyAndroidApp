@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Rick &amp; Morty App</string>
+    <string name="app_name" translatable="false">Rick &amp; Morty App</string>
+    <string name="lab_unknown_error">Unknown error</string>
 </resources>

@@ -32,6 +32,7 @@ import com.daveloper.rickandmortyapp.feature_character.data.repository.external.
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -84,7 +85,7 @@ class MainActivity: ComponentActivity() {
             )
             Button(
                 onClick = {
-                    lifecycleScope.launch {
+                    lifecycleScope.launch (Dispatchers.IO){
                         /*val result = characterRepository.getCharactersFromApiByPage()
                         when (result) {
                             is RepositoryResult.Error -> {
@@ -173,7 +174,7 @@ class MainActivity: ComponentActivity() {
                             }
                         }*/
 
-                        val result = locationRepository.getLocationsByIdFromApi(listOf(1, 80, 126))
+                        /*val result = locationRepository.getLocationsByIdFromApi(listOf(1, 80, 126))
                         when (result) {
                             is RepositoryResult.Error -> {
                                 Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
@@ -182,7 +183,8 @@ class MainActivity: ComponentActivity() {
                                 Log.i(TAG, "BaseInitApp locations total = ${result.data?.size}")
                                 Log.i(TAG, "BaseInitApp locations = ${result.data}")
                             }
-                        }
+                        }*/
+                        characterRepository.getCharacters(true)
                     }
                 }
             ) {

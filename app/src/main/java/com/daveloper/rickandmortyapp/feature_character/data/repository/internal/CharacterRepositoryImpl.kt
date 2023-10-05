@@ -1,5 +1,6 @@
 package com.daveloper.rickandmortyapp.feature_character.data.repository.internal
 
+import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
@@ -10,22 +11,93 @@ import com.daveloper.rickandmortyapp.feature_character.data.repository.external.
 import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 import com.daveloper.rickandmortyapp.feature_character.utils.conversion.CharacterUtils.toCharacterData
 import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
+import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
+import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
+import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
+import com.daveloper.rickandmortyapp.feature_character.utils.conversion.CharacterUtils.toCharacterEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
 class CharacterRepositoryImpl @Inject constructor(
     private val apiService: CharacterApiService,
+    private val characterDao: CharacterDao,
+    private val resourceProvider: ResourceProvider,
 ): CharacterRepository {
     companion object {
         private val TAG = CharacterRepository::class.java.name
     }
 
-    override suspend fun getCharactersFromApiByPage(
+    override suspend fun getCharacters(
+        requiresRefresh: Boolean
+    ): RepositoryResult<List<CharacterData>> {
+        return try {
+            if (requiresRefresh) { // Force to get data from local
+                val networkDataRequestResult = getAllCharactersFromApi { _, someData ->
+                    saveCharactersOnLocal(someData)
+                }
+                if (networkDataRequestResult is RepositoryResult.Error) {
+                    getAllCharactersFromLocal()
+                } else {
+                    networkDataRequestResult
+                }
+            } else { // Tries to get data from local
+                if (!isLocalDBEmpty()) {
+                    getAllCharactersFromLocal()
+                } else {
+                    val networkDataRequestResult = getAllCharactersFromApi { _, someData ->
+                        saveCharactersOnLocal(someData)
+                    }
+                    if (networkDataRequestResult is RepositoryResult.Error) {
+                        getAllCharactersFromLocal()
+                    } else {
+                        networkDataRequestResult
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            RepositoryResult.Error(e)
+        }
+    }
+
+    override fun getCharactersInRealTime(): Flow<List<CharacterData>> {
+        return try {
+            characterDao
+                .getCharacters()
+                .mapNotNull { characters ->
+                    characters.mapNotNull { character ->
+                        character.toCharacterData()
+                    }
+                }
+        } catch (e: Exception) {
+            throw CharacterRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
+    override suspend fun searchCharactersById(
+        ids: List<Int>
+    ): RepositoryResult<List<CharacterData>> {
+        TODO("Not yet implemented")
+    }
+
+    /** Function that gets a list of characters from a page from the API
+     * @param pageNumber ([Int] type])
+     * @return [RepositoryResult]<[List]<[CharacterData]>>
+     * @throws [CharacterRepositoryException]*/
+
+    private suspend fun getCharactersFromApiByPage(
         pageNumber: Int
     ): RepositoryResult<Pair<PageInfoData?, List<CharacterData>>> {
         return try {
             if (pageNumber == Constants.INVALID_INT) {
                 throw CharacterRepositoryException
                     .InvalidInputData("The input page number is invalid")
+            }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw CharacterRepositoryException
+                    .NoInternetConnection()
             }
             val result = apiService.getCharactersByPage(
                 page = pageNumber
@@ -46,10 +118,17 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAllCharactersFromApi(
-
+    /** Function that gets a list of all characters from the API
+     * @return [RepositoryResult]<[List]<[CharacterData]>>
+     * @throws [CharacterRepositoryException]*/
+    private suspend fun getAllCharactersFromApi(
+        onDataFromSomePage: ((PageInfoData?, List<CharacterData>?) -> Unit)? = null
     ): RepositoryResult<List<CharacterData>> {
         return try {
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw CharacterRepositoryException
+                    .NoInternetConnection()
+            }
             var page: Int = 1
             val allCharacters: MutableList<CharacterData> = mutableListOf()
             while (page != Constants.INVALID_INT) {
@@ -57,6 +136,7 @@ class CharacterRepositoryImpl @Inject constructor(
                     page
                 )
                 if (resultByPage is RepositoryResult.Success) {
+                    onDataFromSomePage?.invoke(resultByPage.data?.first, resultByPage.data?.second)
                     if (!resultByPage.data?.second.isNullOrEmpty()) {
                         allCharacters.addAll(resultByPage.data!!.second)
                     }
@@ -75,13 +155,20 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharactersByIdFromApi(
+    /** Function that gets a list of characters by ids from the API
+     * @return [RepositoryResult]<[List]<[CharacterData]>>
+     * @throws [CharacterRepositoryException]*/
+    private suspend fun getCharactersByIdFromApi(
         ids: List<Int>
     ): RepositoryResult<List<CharacterData>> {
         return try {
             if (ids.isEmpty()) {
                 throw CharacterRepositoryException
                     .InvalidInputData("The input ids list is empty")
+            }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw CharacterRepositoryException
+                    .NoInternetConnection()
             }
             if (ids.size == 1) {
                 val result = apiService.getCharacterById(
@@ -112,4 +199,50 @@ class CharacterRepositoryImpl @Inject constructor(
             RepositoryResult.Error(e)
         }
     }
+
+    /** Function that gets a list of all characters from the Local DB
+     * @return [RepositoryResult]<[List]<[CharacterData]>>
+     * @throws [CharacterRepositoryException]*/
+    private fun getAllCharactersFromLocal(
+
+    ): RepositoryResult<List<CharacterData>>  {
+        return try {
+            val charactersFromLocal: List<CharacterEntity>? = characterDao.getCharactersByIds()
+            if (charactersFromLocal.isNullOrEmpty()) {
+                throw CharacterRepositoryException
+                    .NotFoundData("The data found from Local is null or empty")
+            }
+            RepositoryResult.Success(
+                charactersFromLocal.mapNotNull { it.toCharacterData() }
+            )
+        } catch (e: Exception) {
+            RepositoryResult.Error(e)
+        }
+    }
+
+    /** Function that gets a list of [CharacterData] and tries to save the valid received data on the
+     * local DB after a conversion process to [CharacterEntity].
+     *
+     * @param data ([List]<[CharacterData]>? type)
+     * */
+    private fun saveCharactersOnLocal(
+        data: List<CharacterData>?
+    ) {
+        try {
+            data?.let { nonNullData ->
+                val dataToSave: List<CharacterEntity> = nonNullData.mapNotNull {
+                    it.toCharacterEntity()
+                }
+                characterDao.insertCharacters(dataToSave)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    /** Function that valid if the local DB do not have any [CharacterEntity] record
+     * @return [Boolean]
+     * */
+    private fun isLocalDBEmpty(): Boolean = characterDao.getCharactersTotal() == 0
+
 }

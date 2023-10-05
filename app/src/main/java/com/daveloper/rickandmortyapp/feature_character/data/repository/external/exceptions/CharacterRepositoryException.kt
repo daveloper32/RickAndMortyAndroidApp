@@ -16,5 +16,16 @@ sealed class CharacterRepositoryException(
     ): CharacterRepositoryException(
         message
     )
+
+    class NoInternetConnection(
+    ): CharacterRepositoryException(
+        "Currently do not found any internet connection to make action"
+    )
+
+    class Unknown(
+        message: String
+    ): CharacterRepositoryException(
+        message
+    )
 }
 
