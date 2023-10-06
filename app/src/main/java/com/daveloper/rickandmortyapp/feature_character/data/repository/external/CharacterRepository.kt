@@ -19,6 +19,9 @@ interface CharacterRepository {
     ): RepositoryResult<List<CharacterData>>
 
     /** Function that gets a real time list of characters data from local
+     *
+     * @param searchQuery ([String] type) - query to filter results (for now by name). By default it
+     * is not required and it have an empty string as its value
      * @return [Flow]<[List]<[CharacterData]>>
      * @throws [CharacterRepositoryException]*/
     fun getCharactersInRealTime(
