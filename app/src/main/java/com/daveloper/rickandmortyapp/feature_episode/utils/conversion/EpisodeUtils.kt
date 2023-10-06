@@ -1,7 +1,9 @@
 package com.daveloper.rickandmortyapp.feature_episode.utils.conversion
 
+import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants.EMPTY_STR
 import com.daveloper.rickandmortyapp.core.utils.string.StringUtils.getIdAfterLastSlash
+import com.daveloper.rickandmortyapp.feature_episode.data.db.model.EpisodeEntity
 import com.daveloper.rickandmortyapp.feature_episode.data.network.model.response.EpisodeModel
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model.EpisodeData
 
@@ -24,6 +26,54 @@ object EpisodeUtils {
                 characterIds = this.characters?.mapNotNull { it.getIdAfterLastSlash() } ?: emptyList(),
                 url = this.url ?: EMPTY_STR,
                 created = this.created ?: EMPTY_STR,
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /** Extension function to convert a [EpisodeEntity] data model to a [EpisodeData] data model
+     * @param [EpisodeEntity]
+     * */
+    fun EpisodeEntity.toEpisodeData(): EpisodeData? {
+        return try {
+            if (
+                this.id == Constants.INVALID_INT
+            ) {
+                return null
+            }
+            EpisodeData(
+                id = this.id,
+                name = this.name,
+                airDate = this.airDate,
+                episode = this.episode,
+                characterIds = this.characterIds,
+                url = this.url,
+                created = this.created,
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /** Extension function to convert a [EpisodeData] data model to a [EpisodeEntity] data model
+     * @param [EpisodeData]
+     * */
+    fun EpisodeData.toEpisodeEntity(): EpisodeEntity? {
+        return try {
+            if (
+                this.id == Constants.INVALID_INT
+            ) {
+                return null
+            }
+            EpisodeEntity(
+                id = this.id,
+                name = this.name,
+                airDate = this.airDate,
+                episode = this.episode,
+                characterIds = this.characterIds,
+                url = this.url,
+                created = this.created,
             )
         } catch (e: Exception) {
             null

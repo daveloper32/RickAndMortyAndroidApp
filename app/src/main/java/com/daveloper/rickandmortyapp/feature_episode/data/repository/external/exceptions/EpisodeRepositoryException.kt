@@ -16,5 +16,16 @@ sealed class EpisodeRepositoryException(
     ): EpisodeRepositoryException(
         message
     )
+
+    class NoInternetConnection(
+    ): EpisodeRepositoryException(
+        "Currently do not found any internet connection to make action"
+    )
+
+    class Unknown(
+        message: String
+    ): EpisodeRepositoryException(
+        message
+    )
 }
 

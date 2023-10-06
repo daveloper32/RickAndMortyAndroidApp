@@ -86,105 +86,10 @@ class MainActivity: ComponentActivity() {
             Button(
                 onClick = {
                     lifecycleScope.launch (Dispatchers.IO){
-                        /*val result = characterRepository.getCharactersFromApiByPage()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp page info = ${result.data?.first}")
-                                Log.i(TAG, "BaseInitApp characters = ${result.data?.second}")
-                            }
-                        }*/
-
-                        /*val result = characterRepository.getAllCharactersFromApi()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp characters total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp characters = ${result.data}")
-                            }
-                        }*/
-
-                        /*val result = characterRepository.getCharactersByIdFromApi(listOf(1, 50, 100))
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp characters total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp characters = ${result.data}")
-                            }
-                        }*/
-
-                        /*val result = episodeRepository.getEpisodesFromApiByPage()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp page info = ${result.data?.first}")
-                                Log.i(TAG, "BaseInitApp episodes = ${result.data?.second}")
-                            }
-                        }*/
-
-                        /*val result = episodeRepository.getAllEpisodesFromApi()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp episodes total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp episodes = ${result.data}")
-                            }
-                        }*/
-
-                        /*val result = episodeRepository.getEpisodesByIdFromApi(listOf(1, 25, 51))
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp episodes total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp episodes = ${result.data}")
-                            }
-                        }*/
-
-                        /*val result = locationRepository.getLocationsFromApiByPage()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp page info = ${result.data?.first}")
-                                Log.i(TAG, "BaseInitApp locations = ${result.data?.second}")
-                            }
-                        }*/
-
-                        /*val result = locationRepository.getAllLocationsFromApi()
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp locations total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp locations = ${result.data}")
-                            }
-                        }*/
-
-                        /*val result = locationRepository.getLocationsByIdFromApi(listOf(1, 80, 126))
-                        when (result) {
-                            is RepositoryResult.Error -> {
-                                Log.e(TAG, "BaseInitApp error -> ${result.exception}", )
-                            }
-                            is RepositoryResult.Success -> {
-                                Log.i(TAG, "BaseInitApp locations total = ${result.data?.size}")
-                                Log.i(TAG, "BaseInitApp locations = ${result.data}")
-                            }
-                        }*/
                         characterRepository.getCharacters(true)
+                    }
+                    lifecycleScope.launch (Dispatchers.IO){
+                        episodeRepository.getEpisodes(true)
                     }
                 }
             ) {

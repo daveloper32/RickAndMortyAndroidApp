@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.daveloper.rickandmortyapp.core.data.db.RickAndMortyDatabase
 import com.daveloper.rickandmortyapp.core.utils.room.createARoomDatabase
 import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
+import com.daveloper.rickandmortyapp.feature_episode.data.db.dao.EpisodeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,9 +25,17 @@ object AppModule {
         RickAndMortyDatabase.DATABASE_NAME
     )
 
+    /**DI function that provides a singleton of a [CharacterDao]*/
     @Provides
     @Singleton
     fun provideCharacterDao(
         rickAndMortyDatabase: RickAndMortyDatabase
     ): CharacterDao = rickAndMortyDatabase.characterDao
+
+    /**DI function that provides a singleton of a [EpisodeDao]*/
+    @Provides
+    @Singleton
+    fun provideEpisodeDao(
+        rickAndMortyDatabase: RickAndMortyDatabase
+    ): EpisodeDao = rickAndMortyDatabase.episodeDao
 }

@@ -102,7 +102,6 @@ class CharacterRepositoryImpl @Inject constructor(
      * @param pageNumber ([Int] type])
      * @return [RepositoryResult]<[List]<[CharacterData]>>
      * @throws [CharacterRepositoryException]*/
-
     private suspend fun getCharactersFromApiByPage(
         pageNumber: Int
     ): RepositoryResult<Pair<PageInfoData?, List<CharacterData>>> {
@@ -135,6 +134,8 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     /** Function that gets a list of all characters from the API
+     * @param onDataFromSomePage (Lambda nullable [Unit] function type) -> resolver parameters
+     * [PageInfoData]? & [List]<[CharacterData]>?
      * @return [RepositoryResult]<[List]<[CharacterData]>>
      * @throws [CharacterRepositoryException]*/
     private suspend fun getAllCharactersFromApi(
@@ -260,5 +261,4 @@ class CharacterRepositoryImpl @Inject constructor(
      * @return [Boolean]
      * */
     private fun isLocalDBEmpty(): Boolean = characterDao.getCharactersTotal() == 0
-
 }

@@ -7,7 +7,6 @@ import com.daveloper.rickandmortyapp.feature_character.data.repository.external.
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
-
     /** Function that search and gets a list of all characters.
      *
      * @param requiresRefresh ([Boolean] type]) - By default it is set up to false value. This value
