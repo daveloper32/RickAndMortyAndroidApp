@@ -1,9 +1,9 @@
 package com.daveloper.rickandmortyapp.feature_character.data.repository.external
 
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.CharacterData
+import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
-import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
+import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.CharacterData
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
@@ -22,7 +22,7 @@ interface CharacterRepository {
      * @return [Flow]<[List]<[CharacterData]>>
      * @throws [CharacterRepositoryException]*/
     fun getCharactersInRealTime(
-
+        searchQuery: String = Constants.EMPTY_STR
     ): Flow<List<CharacterData>>
 
     /** Function that search and gets a list of characters by ids from Local

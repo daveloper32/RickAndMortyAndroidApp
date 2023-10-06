@@ -14,8 +14,10 @@ interface CharacterDao {
     /**Gets a [Flow] of all [CharacterEntity] saved on the [RickAndMortyDatabase]
      *
      * @return [Flow]<[List]<[CharacterEntity]>>*/
-    @Query("SELECT * FROM characterEntity")
-    fun getCharacters(): Flow<List<CharacterEntity>>
+    @Query("SELECT * FROM characterEntity WHERE (name LIKE :searchQuery)")
+    fun getCharacters(
+        searchQuery: String
+    ): Flow<List<CharacterEntity>>
 
     /**Search and get a [CharacterEntity] that matches with the input id from the
      * [RickAndMortyDatabase].

@@ -60,10 +60,14 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getCharactersInRealTime(): Flow<List<CharacterData>> {
+    override fun getCharactersInRealTime(
+        searchQuery: String
+    ): Flow<List<CharacterData>> {
         return try {
             characterDao
-                .getCharacters()
+                .getCharacters(
+                    searchQuery = searchQuery
+                )
                 .mapNotNull { characters ->
                     characters.mapNotNull { character ->
                         character.toCharacterData()
@@ -79,7 +83,19 @@ class CharacterRepositoryImpl @Inject constructor(
     override suspend fun searchCharactersById(
         ids: List<Int>
     ): RepositoryResult<List<CharacterData>> {
-        TODO("Not yet implemented")
+        return try {
+            val charactersFromLocal: List<CharacterEntity>? = characterDao
+                .getCharactersByIds(id = ids.toIntArray())
+            if (charactersFromLocal.isNullOrEmpty()) {
+                throw CharacterRepositoryException
+                    .NotFoundData("The data found from Local is null or empty")
+            }
+            RepositoryResult.Success(
+                charactersFromLocal.mapNotNull { it.toCharacterData() }
+            )
+        } catch (e: Exception) {
+            RepositoryResult.Error(e)
+        }
     }
 
     /** Function that gets a list of characters from a page from the API
