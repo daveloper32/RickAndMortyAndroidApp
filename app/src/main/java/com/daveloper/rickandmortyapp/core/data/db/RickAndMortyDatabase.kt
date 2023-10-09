@@ -9,13 +9,16 @@ import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
 import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 import com.daveloper.rickandmortyapp.feature_episode.data.db.dao.EpisodeDao
 import com.daveloper.rickandmortyapp.feature_episode.data.db.model.EpisodeEntity
+import com.daveloper.rickandmortyapp.feature_location.data.db.dao.LocationDao
+import com.daveloper.rickandmortyapp.feature_location.data.db.model.LocationEntity
 
 /**Base [RickAndMortyDatabase] database class
  * */
 @Database(
     entities = [
         CharacterEntity::class,
-        EpisodeEntity::class
+        EpisodeEntity::class,
+        LocationEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -32,4 +35,5 @@ abstract class RickAndMortyDatabase: RoomDatabase() {
     }
     abstract val characterDao: CharacterDao
     abstract val episodeDao: EpisodeDao
+    abstract val locationDao: LocationDao
 }

@@ -91,6 +91,9 @@ class MainActivity: ComponentActivity() {
                     lifecycleScope.launch (Dispatchers.IO){
                         episodeRepository.getEpisodes(true)
                     }
+                    lifecycleScope.launch (Dispatchers.IO){
+                        locationRepository.getLocations(true)
+                    }
                 }
             ) {
                 Text(text = "Test request")

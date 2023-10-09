@@ -16,4 +16,15 @@ sealed class LocationRepositoryException(
     ): LocationRepositoryException(
         message
     )
+
+    class NoInternetConnection(
+    ): LocationRepositoryException(
+        "Currently do not found any internet connection to make action"
+    )
+
+    class Unknown(
+        message: String
+    ): LocationRepositoryException(
+        message
+    )
 }

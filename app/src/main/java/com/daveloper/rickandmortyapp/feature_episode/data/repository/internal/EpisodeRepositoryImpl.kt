@@ -7,7 +7,6 @@ import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
 import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
 import com.daveloper.rickandmortyapp.feature_episode.data.db.dao.EpisodeDao
 import com.daveloper.rickandmortyapp.feature_episode.data.db.model.EpisodeEntity
 import com.daveloper.rickandmortyapp.feature_episode.data.network.EpisodeApiService
@@ -215,7 +214,7 @@ class EpisodeRepositoryImpl @Inject constructor(
         return try {
             val episodesFromLocal: List<EpisodeEntity>? = episodeDao.getEpisodesByIds()
             if (episodesFromLocal.isNullOrEmpty()) {
-                throw CharacterRepositoryException
+                throw EpisodeRepositoryException
                     .NotFoundData("The data found from Local is null or empty")
             }
             RepositoryResult.Success(
