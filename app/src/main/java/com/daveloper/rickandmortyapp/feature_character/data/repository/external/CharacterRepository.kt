@@ -36,4 +36,28 @@ interface CharacterRepository {
     suspend fun searchCharactersById(
         ids: List<Int> = emptyList()
     ): RepositoryResult<List<CharacterData>>
+
+    /** Function that gets all the Character Life Status on real time from local.
+     *
+     * @return [Flow]<[List]<[String]>>
+     * @throws [CharacterRepositoryException]*/
+    suspend fun getCharacterLifeStatus(
+
+    ): Flow<List<String>>
+
+    /** Function that gets all the Character Species on real time from local.
+     *
+     * @return [Flow]<[List]<[String]>>
+     * @throws [CharacterRepositoryException]*/
+    suspend fun getCharacterSpecies(
+
+    ): Flow<List<String>>
+
+    /** Function that gets all the Character Genders on real time from local.
+     *
+     * @return [Flow]<[List]<[String]>>
+     * @throws [CharacterRepositoryException]*/
+    suspend fun getCharacterGenders(
+
+    ): Flow<List<String>>
 }

@@ -85,4 +85,22 @@ interface CharacterDao {
      * */
     @Query("DELETE FROM characterEntity")
     fun deleteAllCharacters()
+
+    /** Filter the [CharacterEntity] table and gets all the unique status ([String]) values
+     * @return [Flow]<[List]<[String]>>
+     * */
+    @Query("SELECT DISTINCT status FROM characterEntity")
+    fun getAllStatus(): Flow<List<String>>
+
+    /** Filter the [CharacterEntity] table and gets all the unique species ([String]) values
+     * @return [Flow]<[List]<[String]>>
+     * */
+    @Query("SELECT DISTINCT species FROM characterEntity")
+    fun getAllSpecies(): Flow<List<String>>
+
+    /** Filter the [CharacterEntity] table and gets all the unique gender ([String]) values
+     * @return [Flow]<[List]<[String]>>
+     * */
+    @Query("SELECT DISTINCT gender FROM characterEntity")
+    fun getAllGenders(): Flow<List<String>>
 }

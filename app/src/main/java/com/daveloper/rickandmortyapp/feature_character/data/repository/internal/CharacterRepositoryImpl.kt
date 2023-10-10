@@ -98,6 +98,39 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getCharacterLifeStatus(): Flow<List<String>> {
+        return try {
+            characterDao
+                .getAllStatus()
+        } catch (e: Exception) {
+            throw CharacterRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
+    override suspend fun getCharacterSpecies(): Flow<List<String>> {
+        return try {
+            characterDao
+                .getAllSpecies()
+        } catch (e: Exception) {
+            throw CharacterRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
+    override suspend fun getCharacterGenders(): Flow<List<String>> {
+        return try {
+            characterDao
+                .getAllGenders()
+        } catch (e: Exception) {
+            throw CharacterRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
     /** Function that gets a list of characters from a page from the API
      * @param pageNumber ([Int] type])
      * @return [RepositoryResult]<[List]<[CharacterData]>>
