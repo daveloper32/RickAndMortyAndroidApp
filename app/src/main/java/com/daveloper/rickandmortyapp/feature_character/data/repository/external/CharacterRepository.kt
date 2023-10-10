@@ -41,7 +41,7 @@ interface CharacterRepository {
      *
      * @return [Flow]<[List]<[String]>>
      * @throws [CharacterRepositoryException]*/
-    suspend fun getCharacterLifeStatus(
+    suspend fun getCharacterLifeStatusInRealTime(
 
     ): Flow<List<String>>
 
@@ -49,7 +49,7 @@ interface CharacterRepository {
      *
      * @return [Flow]<[List]<[String]>>
      * @throws [CharacterRepositoryException]*/
-    suspend fun getCharacterSpecies(
+    suspend fun getCharacterSpeciesInRealTime(
 
     ): Flow<List<String>>
 
@@ -57,7 +57,7 @@ interface CharacterRepository {
      *
      * @return [Flow]<[List]<[String]>>
      * @throws [CharacterRepositoryException]*/
-    suspend fun getCharacterGenders(
+    suspend fun getCharacterGendersInRealTime(
 
     ): Flow<List<String>>
 }

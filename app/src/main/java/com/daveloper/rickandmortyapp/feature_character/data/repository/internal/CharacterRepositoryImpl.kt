@@ -98,7 +98,7 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharacterLifeStatus(): Flow<List<String>> {
+    override suspend fun getCharacterLifeStatusInRealTime(): Flow<List<String>> {
         return try {
             characterDao
                 .getAllStatus()
@@ -109,7 +109,7 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharacterSpecies(): Flow<List<String>> {
+    override suspend fun getCharacterSpeciesInRealTime(): Flow<List<String>> {
         return try {
             characterDao
                 .getAllSpecies()
@@ -120,7 +120,7 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCharacterGenders(): Flow<List<String>> {
+    override suspend fun getCharacterGendersInRealTime(): Flow<List<String>> {
         return try {
             characterDao
                 .getAllGenders()
