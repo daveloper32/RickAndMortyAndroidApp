@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_character.utils.conversion
+package com.daveloper.rickandmortyapp.feature_character.utils.conversion.data
 
 import com.daveloper.rickandmortyapp.core.data.db.model.LocationBasicEntity
 import com.daveloper.rickandmortyapp.core.data.repository.model.LocationBasicData
