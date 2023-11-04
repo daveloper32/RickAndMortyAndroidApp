@@ -74,6 +74,8 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("androidx.navigation:navigation-compose:2.7.4")
 
     // Splash
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -85,6 +87,7 @@ dependencies {
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
 
     // Room
     val roomVersion = "2.5.2"
@@ -105,6 +108,9 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
+
+    // Swipe
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

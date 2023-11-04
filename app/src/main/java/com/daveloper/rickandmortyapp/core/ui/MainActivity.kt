@@ -29,10 +29,13 @@ import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
 import com.daveloper.rickandmortyapp.core.ui.theme.RickMortyAppTheme
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.CharacterRepository
+import com.daveloper.rickandmortyapp.feature_character.domain.GetCharactersUseCase
+import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharactersScreen
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,6 +53,9 @@ class MainActivity: ComponentActivity() {
     @Inject
     lateinit var locationRepository: LocationRepository
 
+    @Inject
+    lateinit var getCharactersUseCase: GetCharactersUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -58,7 +64,8 @@ class MainActivity: ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    BaseInitApp(modifier = Modifier.fillMaxSize())
+                    CharactersScreen()
+                    //BaseInitApp(modifier = Modifier.fillMaxSize())
                 }
             }
         }
@@ -93,6 +100,11 @@ class MainActivity: ComponentActivity() {
                     }
                     lifecycleScope.launch (Dispatchers.IO){
                         locationRepository.getLocations(true)
+                    }
+                    lifecycleScope.launch {
+                        getCharactersUseCase.invoke().collectLatest {
+                            Log.i(TAG, "BaseInitApp characters found: ${it.size}")
+                        }
                     }
                 }
             ) {

@@ -13,8 +13,10 @@ import com.daveloper.rickandmortyapp.core.data.db.RickAndMortyDatabase
 interface CharacterDao {
     /**Gets a [Flow] of all [CharacterEntity] saved on the [RickAndMortyDatabase]
      *
+     * @param searchQuery ([String] type) - Filter results by [CharacterEntity] name, if the query
+     * is empty, it returns all the data found in the DB.
      * @return [Flow]<[List]<[CharacterEntity]>>*/
-    @Query("SELECT * FROM characterEntity WHERE (name LIKE :searchQuery)")
+    @Query("SELECT * FROM characterEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%')")
     fun getCharacters(
         searchQuery: String
     ): Flow<List<CharacterEntity>>
