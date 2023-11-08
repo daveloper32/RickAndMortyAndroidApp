@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_episode.utils.domain
+package com.daveloper.rickandmortyapp.feature_episode.utils.conversion.domain
 
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model.EpisodeData

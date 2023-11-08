@@ -1,9 +1,8 @@
-package com.daveloper.rickandmortyapp.feature_location.utils.conversion
+package com.daveloper.rickandmortyapp.feature_location.utils.conversion.data
 
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants.EMPTY_STR
 import com.daveloper.rickandmortyapp.core.utils.string.StringUtils.getIdAfterLastSlash
-import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.EpisodeUtils.toEpisodeData
 import com.daveloper.rickandmortyapp.feature_location.data.db.model.LocationEntity
 import com.daveloper.rickandmortyapp.feature_location.data.network.model.response.LocationModel
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.model.LocationData

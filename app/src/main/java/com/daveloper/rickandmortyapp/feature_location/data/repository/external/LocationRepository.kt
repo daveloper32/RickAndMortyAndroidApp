@@ -3,6 +3,7 @@ package com.daveloper.rickandmortyapp.feature_location.data.repository.external
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
 import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
+import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.exceptions.LocationRepositoryException
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.model.LocationData
 import kotlinx.coroutines.flow.Flow
@@ -37,4 +38,20 @@ interface LocationRepository {
     suspend fun searchLocationsById(
         ids: List<Int> = emptyList()
     ): RepositoryResult<List<LocationData>>
+
+    /** Function that gets all the Location Types on real time from local.
+     *
+     * @return [Flow]<[List]<[String]>>
+     * @throws [LocationRepositoryException]*/
+    fun getLocationTypesInRealTime(
+
+    ): Flow<List<String>>
+
+    /** Function that gets all the Location Dimensions on real time from local.
+     *
+     * @return [Flow]<[List]<[String]>>
+     * @throws [LocationRepositoryException]*/
+    fun getLocationDimensionsInRealTime(
+
+    ): Flow<List<String>>
 }

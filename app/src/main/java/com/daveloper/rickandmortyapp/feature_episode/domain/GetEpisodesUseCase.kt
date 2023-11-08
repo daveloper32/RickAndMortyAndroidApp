@@ -5,7 +5,7 @@ import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
 import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
-import com.daveloper.rickandmortyapp.feature_episode.utils.domain.EpisodeUtils.toDomain
+import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.domain.EpisodeUtils.toDomain
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

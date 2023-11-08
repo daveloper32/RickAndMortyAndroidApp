@@ -7,16 +7,17 @@ import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
 import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
-import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
 import com.daveloper.rickandmortyapp.feature_episode.data.db.dao.EpisodeDao
 import com.daveloper.rickandmortyapp.feature_episode.data.db.model.EpisodeEntity
 import com.daveloper.rickandmortyapp.feature_episode.data.network.EpisodeApiService
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.exceptions.EpisodeRepositoryException
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model.EpisodeData
-import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.EpisodeUtils.toEpisodeData
-import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.EpisodeUtils.toEpisodeEntity
+import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.data.EpisodeUtils.toEpisodeData
+import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.data.EpisodeUtils.toEpisodeEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 

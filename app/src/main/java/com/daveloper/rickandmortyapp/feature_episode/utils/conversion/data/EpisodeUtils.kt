@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_episode.utils.conversion
+package com.daveloper.rickandmortyapp.feature_episode.utils.conversion.data
 
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants.EMPTY_STR
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants.INVALID_INT

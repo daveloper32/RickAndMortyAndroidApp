@@ -16,6 +16,8 @@ import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
 import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 import com.daveloper.rickandmortyapp.feature_character.utils.conversion.data.CharacterUtils.toCharacterEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -102,6 +104,11 @@ class CharacterRepositoryImpl @Inject constructor(
         return try {
             characterDao
                 .getAllStatus()
+                .map { data ->
+                    data.filter {
+                        it.isNotEmpty()
+                    }
+                }
         } catch (e: Exception) {
             throw CharacterRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
@@ -113,6 +120,11 @@ class CharacterRepositoryImpl @Inject constructor(
         return try {
             characterDao
                 .getAllSpecies()
+                .map { data ->
+                    data.filter {
+                        it.isNotEmpty()
+                    }
+                }
         } catch (e: Exception) {
             throw CharacterRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
@@ -124,6 +136,11 @@ class CharacterRepositoryImpl @Inject constructor(
         return try {
             characterDao
                 .getAllGenders()
+                .map { data ->
+                    data.filter {
+                        it.isNotEmpty()
+                    }
+                }
         } catch (e: Exception) {
             throw CharacterRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)

@@ -8,13 +8,14 @@ import androidx.room.Query
 import com.daveloper.rickandmortyapp.feature_location.data.db.model.LocationEntity
 import kotlinx.coroutines.flow.Flow
 import com.daveloper.rickandmortyapp.core.data.db.RickAndMortyDatabase
+import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 
 @Dao
 interface LocationDao {
     /**Gets a [Flow] of all [LocationEntity] saved on the [RickAndMortyDatabase]
      *
      * @return [Flow]<[List]<[LocationEntity]>>*/
-    @Query("SELECT * FROM locationEntity WHERE (name LIKE :searchQuery)")
+    @Query("SELECT * FROM locationEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%')")
     fun getLocations(
         searchQuery: String
     ): Flow<List<LocationEntity>>
@@ -69,7 +70,7 @@ interface LocationDao {
      *
      * @return [Int]?
      * */
-    @Query("SELECT count(*) FROM LocationEntity")
+    @Query("SELECT count(*) FROM locationEntity")
     fun getLocationsTotal(): Int?
 
     /** Deletes an input [LocationEntity] from the [RickAndMortyDatabase].
@@ -85,4 +86,16 @@ interface LocationDao {
      * */
     @Query("DELETE FROM locationEntity")
     fun deleteAllLocations()
+
+    /** Filter the [LocationEntity] table and gets all the unique type ([String]) values
+     * @return [Flow]<[List]<[String]>>
+     * */
+    @Query("SELECT DISTINCT type FROM locationEntity")
+    fun getAllTypes(): Flow<List<String>>
+
+    /** Filter the [LocationEntity] table and gets all the unique dimension ([String]) values
+     * @return [Flow]<[List]<[String]>>
+     * */
+    @Query("SELECT DISTINCT dimension FROM locationEntity")
+    fun getAllDimensions(): Flow<List<String>>
 }

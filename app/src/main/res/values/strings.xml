@@ -14,4 +14,7 @@
     <string name="lab_season_number">Season # %d</string>
     <string name="lab_episode_number">Episode # %d</string>
     <string name="lab_season_and_episode_stamp">S%d.E%d</string>
+    <string name="lab_type">Type</string>
+    <string name="lab_dimension">Dimension</string>
+    <string name="lab_unknown">Unknown</string>
 </resources>

@@ -13,9 +13,11 @@ import com.daveloper.rickandmortyapp.feature_location.data.network.LocationApiSe
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.exceptions.LocationRepositoryException
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.model.LocationData
-import com.daveloper.rickandmortyapp.feature_location.utils.conversion.LocationUtils.toLocationData
-import com.daveloper.rickandmortyapp.feature_location.utils.conversion.LocationUtils.toLocationEntity
+import com.daveloper.rickandmortyapp.feature_location.utils.conversion.data.LocationUtils.toLocationData
+import com.daveloper.rickandmortyapp.feature_location.utils.conversion.data.LocationUtils.toLocationEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -95,6 +97,38 @@ class LocationRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             RepositoryResult.Error(e)
+        }
+    }
+
+    override fun getLocationTypesInRealTime(): Flow<List<String>> {
+        return try {
+            locationDao
+                .getAllTypes()
+                .map { data ->
+                    data.filter {
+                        it.isNotEmpty()
+                    }
+                }
+        } catch (e: Exception) {
+            throw LocationRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
+    override fun getLocationDimensionsInRealTime(): Flow<List<String>> {
+        return try {
+            locationDao
+                .getAllDimensions()
+                .map { data ->
+                    data.filter {
+                        it.isNotEmpty()
+                    }
+                }
+        } catch (e: Exception) {
+            throw LocationRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
         }
     }
 

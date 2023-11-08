@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_episode.domain
+package com.daveloper.rickandmortyapp.feature_location.domain
 
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
@@ -6,31 +6,31 @@ import com.daveloper.rickandmortyapp.core.base.result.UseCaseResult
 import com.daveloper.rickandmortyapp.core.base.result.enums.MessageResultType
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
-import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
-import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
-import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.domain.EpisodeUtils.toDomain
+import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
+import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
+import com.daveloper.rickandmortyapp.feature_location.utils.conversion.domain.LocationUtils.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-/** The [UpdateEpisodesUseCase] updates and gets all [Episode] data.
- */
-class UpdateEpisodesUseCase @Inject constructor(
+/** The [UpdateLocationsUseCase] updates and gets all [Location] data.
+ * */
+class UpdateLocationsUseCase @Inject constructor(
     private val resourceProvider: ResourceProvider,
-    private val episodeRepository: EpisodeRepository
+    private val locationRepository: LocationRepository
 ) {
-    /** The [UpdateEpisodesUseCase] updates and gets all [Episode] data.
+    /** The [UpdateLocationsUseCase] updates and gets all [Location] data.
      *
      * @param forceDataRefresh ([Boolean] type]) - By default it is set up to false value. This value
      * should only set up to true if expects to refresh all data from Network.
-     * @return [UseCaseResult]<[List]<[Episode]>>
+     * @return [UseCaseResult]<[List]<[Location]>>
      * */
     suspend operator fun invoke(
         forceDataRefresh: Boolean = false
-    ): UseCaseResult<List<Episode>> {
+    ): UseCaseResult<List<Location>> {
         return try {
             val result = withContext(Dispatchers.IO) {
-                episodeRepository.getEpisodes(
+                locationRepository.getLocations(
                     requiresRefresh = forceDataRefresh
                 )
             }
