@@ -1,13 +1,11 @@
-package com.daveloper.rickandmortyapp.feature_character.presentation.characters.components
+package com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,16 +14,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -35,30 +28,25 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.daveloper.rickandmortyapp.R
-import com.daveloper.rickandmortyapp.core.domain.model.ItemDataFilter
 import com.daveloper.rickandmortyapp.core.ui.components.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
-import com.daveloper.rickandmortyapp.feature_character.domain.enums.CharacterFilterType
-import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersEvent
-import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersViewModel
+import com.daveloper.rickandmortyapp.feature_episode.domain.enums.EpisodeFilterType
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesEvent
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CharactersScreen(
+fun EpisodesScreen(
     //navController: NavController,
-    viewModel: CharactersViewModel = hiltViewModel()
+    viewModel: EpisodesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
@@ -89,7 +77,7 @@ fun CharactersScreen(
                 ,
                 value = searchText.text,
                 onValueChange = {
-                    viewModel.onEvent(CharactersEvent.Search(it))
+                    viewModel.onEvent(EpisodesEvent.Search(it))
                 },
                 label = {
                     Text(
@@ -107,7 +95,7 @@ fun CharactersScreen(
                     if (searchText.text.isNotEmpty()) {
                         Icon(
                             modifier = Modifier.clickable {
-                                viewModel.onEvent(CharactersEvent.ClearSearchBar)
+                                viewModel.onEvent(EpisodesEvent.ClearSearchBar)
                             },
                             imageVector = Icons.Rounded.Clear,
                             contentDescription = "Search bar dismiss"
@@ -120,7 +108,7 @@ fun CharactersScreen(
                     .size(24.dp),
                 onClick = {
                     viewModel.onEvent(
-                        CharactersEvent.ActivateFilter
+                        EpisodesEvent.ActivateFilter
                     )
                 }
             ) {
@@ -147,16 +135,8 @@ fun CharactersScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Chip(
-                    name = state.selectedLifeStatus,
-                    subTitle = stringResource(id = R.string.lab_life_status)
-                )
-                Chip(
-                    name = state.selectedSpecies,
-                    subTitle = stringResource(id = R.string.lab_species)
-                )
-                Chip(
-                    name = state.selectedGender,
-                    subTitle = stringResource(id = R.string.lab_gender)
+                    name = state.selectedSeason,
+                    subTitle = stringResource(id = R.string.lab_season)
                 )
             }
         }
@@ -175,34 +155,12 @@ fun CharactersScreen(
                     ),
             ) {
                 FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_life_status),
-                    data = state.lifeStatus,
+                    subTitle = stringResource(id = R.string.lab_season),
+                    data = state.season,
                 ) { selectedValue ->
                     viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.LIFE_STATUS,
-                            value = selectedValue
-                        )
-                    )
-                }
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_species),
-                    data = state.species,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.SPECIES,
-                            value = selectedValue
-                        )
-                    )
-                }
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_gender),
-                    data = state.genders,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.GENDER,
+                        EpisodesEvent.Filter(
+                            episodeFilterType = EpisodeFilterType.SEASON,
                             value = selectedValue
                         )
                     )
@@ -211,7 +169,7 @@ fun CharactersScreen(
         }
         SwipeRefresh(
             state = swipeRefreshState,
-            onRefresh = { viewModel.onEvent(CharactersEvent.Refresh) }
+            onRefresh = { viewModel.onEvent(EpisodesEvent.Refresh) }
         ) {
             if (!state.isNotFoundDataVisible) {
                 LazyVerticalGrid(
@@ -221,9 +179,9 @@ fun CharactersScreen(
                         //horizontal = 4.dp
                     )
                 ) {
-                    items(state.characters) {
-                        CharacterItem(
-                            character = it
+                    items(state.episodes) {
+                        EpisodeItem(
+                            episode = it
                         )
                     }
                 }

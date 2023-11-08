@@ -2,6 +2,7 @@ package com.daveloper.rickandmortyapp.feature_episode.data.repository.external
 
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
+import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.exceptions.EpisodeRepositoryException
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.model.EpisodeData
 import kotlinx.coroutines.flow.Flow
@@ -36,4 +37,12 @@ interface EpisodeRepository {
     suspend fun searchEpisodesById(
         ids: List<Int> = emptyList()
     ): RepositoryResult<List<EpisodeData>>
+
+    /** Function that gets all the Episode Seasons on real time from local.
+     *
+     * @return [Flow]<[List]<[Int]>>
+     * @throws [EpisodeRepositoryException]*/
+    fun getEpisodeSeasonsInRealTime(
+
+    ): Flow<List<Int>>
 }

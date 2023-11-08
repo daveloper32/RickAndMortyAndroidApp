@@ -10,4 +10,8 @@
     <string name="lab_life_status">Life status</string>
     <string name="lab_species">Species</string>
     <string name="lab_gender">Gender</string>
+    <string name="lab_season">Season</string>
+    <string name="lab_season_number">Season # %d</string>
+    <string name="lab_episode_number">Episode # %d</string>
+    <string name="lab_season_and_episode_stamp">S%d.E%d</string>
 </resources>

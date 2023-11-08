@@ -32,6 +32,7 @@ import com.daveloper.rickandmortyapp.feature_character.data.repository.external.
 import com.daveloper.rickandmortyapp.feature_character.domain.GetCharactersUseCase
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharactersScreen
 import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.EpisodeRepository
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodesScreen
 import com.daveloper.rickandmortyapp.feature_location.data.repository.external.LocationRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +65,8 @@ class MainActivity: ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CharactersScreen()
+                    //CharactersScreen()
+                    EpisodesScreen()
                     //BaseInitApp(modifier = Modifier.fillMaxSize())
                 }
             }
