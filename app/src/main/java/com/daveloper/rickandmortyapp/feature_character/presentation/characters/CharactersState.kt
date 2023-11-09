@@ -16,6 +16,7 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
  * @param selectedSpecies ([String] type)
  * @param selectedGender ([String] type)
  * @param isNotFoundDataVisible ([Boolean] type)
+ * @param isRefreshing ([Boolean] type)
  * */
 data class CharactersState(
     val isFilterResumeVisible: Boolean = true,
@@ -28,4 +29,5 @@ data class CharactersState(
     val selectedSpecies: String = EMPTY_STR,
     val selectedGender: String = EMPTY_STR,
     val isNotFoundDataVisible: Boolean = false,
+    val isRefreshing: Boolean = false,
 )

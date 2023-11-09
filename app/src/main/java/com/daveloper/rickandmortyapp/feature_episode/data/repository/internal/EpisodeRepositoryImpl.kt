@@ -16,8 +16,6 @@ import com.daveloper.rickandmortyapp.feature_episode.data.repository.external.mo
 import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.data.EpisodeUtils.toEpisodeData
 import com.daveloper.rickandmortyapp.feature_episode.utils.conversion.data.EpisodeUtils.toEpisodeEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
 
@@ -123,6 +121,9 @@ class EpisodeRepositoryImpl @Inject constructor(
                 throw EpisodeRepositoryException
                     .InvalidInputData("The input page number is invalid")
             }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw EpisodeRepositoryException.NoInternetConnection()
+            }
             val result = apiService.getEpisodesByPage(
                 page = pageNumber
             ).await()
@@ -151,6 +152,9 @@ class EpisodeRepositoryImpl @Inject constructor(
         onDataFromSomePage: ((PageInfoData?, List<EpisodeData>?) -> Unit)? = null
     ): RepositoryResult<List<EpisodeData>> {
         return try {
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw EpisodeRepositoryException.NoInternetConnection()
+            }
             var page: Int = 1
             val allCharacters: MutableList<EpisodeData> = mutableListOf()
             while (page != Constants.INVALID_INT) {
@@ -187,6 +191,9 @@ class EpisodeRepositoryImpl @Inject constructor(
             if (ids.isEmpty()) {
                 throw EpisodeRepositoryException
                     .InvalidInputData("The input ids list is empty")
+            }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw EpisodeRepositoryException.NoInternetConnection()
             }
             if (ids.size == 1) {
                 val result = apiService.getEpisodeById(

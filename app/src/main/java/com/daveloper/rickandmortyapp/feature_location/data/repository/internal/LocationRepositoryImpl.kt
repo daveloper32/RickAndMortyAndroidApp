@@ -16,7 +16,6 @@ import com.daveloper.rickandmortyapp.feature_location.data.repository.external.m
 import com.daveloper.rickandmortyapp.feature_location.utils.conversion.data.LocationUtils.toLocationData
 import com.daveloper.rickandmortyapp.feature_location.utils.conversion.data.LocationUtils.toLocationEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
@@ -144,6 +143,9 @@ class LocationRepositoryImpl @Inject constructor(
                 throw LocationRepositoryException
                     .InvalidInputData("The input page number is invalid")
             }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw LocationRepositoryException.NoInternetConnection()
+            }
             val result = apiService.getLocationsByPage(
                 page = pageNumber
             ).await()
@@ -172,6 +174,9 @@ class LocationRepositoryImpl @Inject constructor(
         onDataFromSomePage: ((PageInfoData?, List<LocationData>?) -> Unit)? = null
     ): RepositoryResult<List<LocationData>> {
         return try {
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw LocationRepositoryException.NoInternetConnection()
+            }
             var page: Int = 1
             val allCharacters: MutableList<LocationData> = mutableListOf()
             while (page != Constants.INVALID_INT) {
@@ -208,6 +213,9 @@ class LocationRepositoryImpl @Inject constructor(
             if (ids.isEmpty()) {
                 throw LocationRepositoryException
                     .InvalidInputData("The input ids list is empty")
+            }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw LocationRepositoryException.NoInternetConnection()
             }
             if (ids.size == 1) {
                 val result = apiService.getLocationById(

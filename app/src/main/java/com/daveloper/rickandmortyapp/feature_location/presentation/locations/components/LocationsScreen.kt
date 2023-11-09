@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -50,7 +51,9 @@ fun LocationsScreen(
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = state.isRefreshing
+    )
 
     Column(
         modifier = Modifier
@@ -118,94 +121,110 @@ fun LocationsScreen(
                 )
             }
         }
-        AnimatedVisibility(
-            visible = state.isFilterResumeVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 4.dp
-                    ),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Chip(
-                    name = state.selectedType,
-                    subTitle = stringResource(id = R.string.lab_type)
-                )
-                Chip(
-                    name = state.selectedDimension,
-                    subTitle = stringResource(id = R.string.lab_dimension)
-                )
-            }
-        }
-        AnimatedVisibility(
-            visible = state.isFilterSelectorVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 8.dp
-                    ),
-            ) {
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_type),
-                    data = state.types,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        LocationsEvent.Filter(
-                            locationFilterType = LocationFilterType.TYPE,
-                            value = selectedValue
-                        )
-                    )
-                }
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_dimension),
-                    data = state.dimensions,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        LocationsEvent.Filter(
-                            locationFilterType = LocationFilterType.DIMENSION,
-                            value = selectedValue
-                        )
-                    )
-                }
-            }
-        }
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = { viewModel.onEvent(LocationsEvent.Refresh) }
         ) {
-            if (!state.isNotFoundDataVisible) {
-                LazyVerticalGrid(
-                    modifier = Modifier.fillMaxSize(),
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(
-                        //horizontal = 4.dp
-                    )
-                ) {
-                    items(state.locations) {
-                        LocationItem(
-                            location = it
-                        )
+            Column {
+                LazyColumn {
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterResumeVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 4.dp
+                                    ),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Chip(
+                                    name = state.selectedType,
+                                    subTitle = stringResource(id = R.string.lab_type)
+                                )
+                                Chip(
+                                    name = state.selectedDimension,
+                                    subTitle = stringResource(id = R.string.lab_dimension)
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterSelectorVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 8.dp
+                                    ),
+                            ) {
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_type),
+                                    data = state.types,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        LocationsEvent.Filter(
+                                            locationFilterType = LocationFilterType.TYPE,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_dimension),
+                                    data = state.dimensions,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        LocationsEvent.Filter(
+                                            locationFilterType = LocationFilterType.DIMENSION,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
-                NotFoundDataCmp(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
+                if (!state.isNotFoundDataVisible) {
+                    LazyVerticalGrid(
+                        modifier = Modifier.fillMaxSize(),
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(
+                            //horizontal = 4.dp
+                        )
+                    ) {
+                        items(state.locations) {
+                            LocationItem(
+                                location = it
+                            )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        item {
+                            NotFoundDataCmp(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     }

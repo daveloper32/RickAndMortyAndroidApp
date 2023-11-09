@@ -7,6 +7,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -26,6 +28,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,6 +48,7 @@ import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.Episo
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +58,9 @@ fun EpisodesScreen(
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = state.isRefreshing
+    )
 
     Column(
         modifier = Modifier
@@ -118,79 +128,98 @@ fun EpisodesScreen(
                 )
             }
         }
-        AnimatedVisibility(
-            visible = state.isFilterResumeVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 4.dp
-                    ),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Chip(
-                    name = state.selectedSeason,
-                    subTitle = stringResource(id = R.string.lab_season)
-                )
-            }
-        }
-        AnimatedVisibility(
-            visible = state.isFilterSelectorVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 8.dp
-                    ),
-            ) {
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_season),
-                    data = state.season,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        EpisodesEvent.Filter(
-                            episodeFilterType = EpisodeFilterType.SEASON,
-                            value = selectedValue
-                        )
-                    )
-                }
-            }
-        }
         SwipeRefresh(
+            modifier = Modifier
+                .fillMaxSize(),
             state = swipeRefreshState,
-            onRefresh = { viewModel.onEvent(EpisodesEvent.Refresh) }
+            onRefresh = { viewModel.onEvent(EpisodesEvent.Refresh) },
+            swipeEnabled = true
         ) {
-            if (!state.isNotFoundDataVisible) {
-                LazyVerticalGrid(
-                    modifier = Modifier.fillMaxSize(),
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(
-                        //horizontal = 4.dp
-                    )
-                ) {
-                    items(state.episodes) {
-                        EpisodeItem(
-                            episode = it
-                        )
+            Column {
+                LazyColumn {
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterResumeVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 4.dp
+                                    ),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Chip(
+                                    name = state.selectedSeason,
+                                    subTitle = stringResource(id = R.string.lab_season)
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterSelectorVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 8.dp
+                                    ),
+                            ) {
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_season),
+                                    data = state.season,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        EpisodesEvent.Filter(
+                                            episodeFilterType = EpisodeFilterType.SEASON,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
-                NotFoundDataCmp(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
+                if (!state.isNotFoundDataVisible) {
+                    LazyVerticalGrid(
+                        modifier = Modifier.fillMaxSize(),
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(
+                            //horizontal = 4.dp
+                        )
+                    ) {
+                        items(state.episodes) {
+                            EpisodeItem(
+                                episode = it
+                            )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        item {
+                            NotFoundDataCmp(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     }

@@ -177,8 +177,16 @@ class EpisodesViewModel @Inject constructor(
     ) {
         try {
             viewModelScope.launch {
+                if (refreshData) {
+                    _state.value = state.value.copy(
+                        isRefreshing = true
+                    )
+                }
                 val result = updateEpisodesUseCase.invoke(
                     forceDataRefresh = refreshData
+                )
+                _state.value =state.value.copy(
+                    isRefreshing = false
                 )
                 when (result) {
                     is UseCaseResult.Success -> {

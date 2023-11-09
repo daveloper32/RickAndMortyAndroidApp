@@ -2,21 +2,20 @@ package com.daveloper.rickandmortyapp.feature_character.data.repository.internal
 
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.base.result.RepositoryResult
+import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
+import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
 import com.daveloper.rickandmortyapp.core.utils.numbers.IntUtils.toStringJoinedWithCommas
+import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
+import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
+import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 import com.daveloper.rickandmortyapp.feature_character.data.network.CharacterApiService
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.CharacterRepository
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.exceptions.CharacterRepositoryException
 import com.daveloper.rickandmortyapp.feature_character.data.repository.external.model.CharacterData
-import com.daveloper.rickandmortyapp.core.data.repository.model.PageInfoData
 import com.daveloper.rickandmortyapp.feature_character.utils.conversion.data.CharacterUtils.toCharacterData
-import com.daveloper.rickandmortyapp.core.utils.conversion.PageInfoUtils.toPageInfoData
-import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
-import com.daveloper.rickandmortyapp.feature_character.data.db.dao.CharacterDao
-import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 import com.daveloper.rickandmortyapp.feature_character.utils.conversion.data.CharacterUtils.toCharacterEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import javax.inject.Inject
@@ -232,6 +231,9 @@ class CharacterRepositoryImpl @Inject constructor(
             if (ids.isEmpty()) {
                 throw CharacterRepositoryException
                     .InvalidInputData("The input ids list is empty")
+            }
+            if (!resourceProvider.isConnectedToNetwork()) {
+                throw CharacterRepositoryException.NoInternetConnection()
             }
             if (!resourceProvider.isConnectedToNetwork()) {
                 throw CharacterRepositoryException

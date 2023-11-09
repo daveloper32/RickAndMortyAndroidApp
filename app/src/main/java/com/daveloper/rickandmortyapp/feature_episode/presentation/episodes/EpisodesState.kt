@@ -13,6 +13,7 @@ import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
  * @param season ([List]<[ItemDataFilter]> type)
  * @param selectedSeason ([String] type)
  * @param isNotFoundDataVisible ([Boolean] type)
+ * @param isRefreshing ([Boolean] type)
  * */
 data class EpisodesState(
     val isFilterResumeVisible: Boolean = true,
@@ -21,4 +22,5 @@ data class EpisodesState(
     val season: List<ItemDataFilter> = emptyList(),
     val selectedSeason: String = Constants.EMPTY_STR,
     val isNotFoundDataVisible: Boolean = false,
+    val isRefreshing: Boolean = false,
 )

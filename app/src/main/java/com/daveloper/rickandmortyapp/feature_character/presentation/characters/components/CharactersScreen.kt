@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -62,7 +63,9 @@ fun CharactersScreen(
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = state.isRefreshing
+    )
 
     Column(
         modifier = Modifier
@@ -130,109 +133,125 @@ fun CharactersScreen(
                 )
             }
         }
-        AnimatedVisibility(
-            visible = state.isFilterResumeVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 4.dp
-                    ),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Chip(
-                    name = state.selectedLifeStatus,
-                    subTitle = stringResource(id = R.string.lab_life_status)
-                )
-                Chip(
-                    name = state.selectedSpecies,
-                    subTitle = stringResource(id = R.string.lab_species)
-                )
-                Chip(
-                    name = state.selectedGender,
-                    subTitle = stringResource(id = R.string.lab_gender)
-                )
-            }
-        }
-        AnimatedVisibility(
-            visible = state.isFilterSelectorVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .padding(
-                        top = 8.dp
-                    ),
-            ) {
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_life_status),
-                    data = state.lifeStatus,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.LIFE_STATUS,
-                            value = selectedValue
-                        )
-                    )
-                }
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_species),
-                    data = state.species,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.SPECIES,
-                            value = selectedValue
-                        )
-                    )
-                }
-                FilterSelector(
-                    subTitle = stringResource(id = R.string.lab_gender),
-                    data = state.genders,
-                ) { selectedValue ->
-                    viewModel.onEvent(
-                        CharactersEvent.Filter(
-                            characterFilterType = CharacterFilterType.GENDER,
-                            value = selectedValue
-                        )
-                    )
-                }
-            }
-        }
         SwipeRefresh(
             state = swipeRefreshState,
             onRefresh = { viewModel.onEvent(CharactersEvent.Refresh) }
         ) {
-            if (!state.isNotFoundDataVisible) {
-                LazyVerticalGrid(
-                    modifier = Modifier.fillMaxSize(),
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(
-                        //horizontal = 4.dp
-                    )
-                ) {
-                    items(state.characters) {
-                        CharacterItem(
-                            character = it
-                        )
+            Column {
+                LazyColumn {
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterResumeVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 4.dp
+                                    ),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Chip(
+                                    name = state.selectedLifeStatus,
+                                    subTitle = stringResource(id = R.string.lab_life_status)
+                                )
+                                Chip(
+                                    name = state.selectedSpecies,
+                                    subTitle = stringResource(id = R.string.lab_species)
+                                )
+                                Chip(
+                                    name = state.selectedGender,
+                                    subTitle = stringResource(id = R.string.lab_gender)
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        AnimatedVisibility(
+                            visible = state.isFilterSelectorVisible,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically()
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .padding(
+                                        horizontal = 16.dp
+                                    )
+                                    .padding(
+                                        top = 8.dp
+                                    ),
+                            ) {
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_life_status),
+                                    data = state.lifeStatus,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        CharactersEvent.Filter(
+                                            characterFilterType = CharacterFilterType.LIFE_STATUS,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_species),
+                                    data = state.species,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        CharactersEvent.Filter(
+                                            characterFilterType = CharacterFilterType.SPECIES,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                                FilterSelector(
+                                    subTitle = stringResource(id = R.string.lab_gender),
+                                    data = state.genders,
+                                ) { selectedValue ->
+                                    viewModel.onEvent(
+                                        CharactersEvent.Filter(
+                                            characterFilterType = CharacterFilterType.GENDER,
+                                            value = selectedValue
+                                        )
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
-                NotFoundDataCmp(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
+                if (!state.isNotFoundDataVisible) {
+                    LazyVerticalGrid(
+                        modifier = Modifier.fillMaxSize(),
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(
+                            //horizontal = 4.dp
+                        )
+                    ) {
+                        items(state.characters) {
+                            CharacterItem(
+                                character = it
+                            )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        item {
+                            NotFoundDataCmp(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     }

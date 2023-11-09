@@ -15,6 +15,7 @@ import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
  * @param selectedType ([String] type)
  * @param selectedDimension ([String] type)
  * @param isNotFoundDataVisible ([Boolean] type)
+ * @param isRefreshing ([Boolean] type)
  * */
 data class LocationsState (
     val isFilterResumeVisible: Boolean = true,
@@ -25,4 +26,5 @@ data class LocationsState (
     val selectedType: String = Constants.EMPTY_STR,
     val selectedDimension: String = Constants.EMPTY_STR,
     val isNotFoundDataVisible: Boolean = false,
+    val isRefreshing: Boolean = false,
 )
