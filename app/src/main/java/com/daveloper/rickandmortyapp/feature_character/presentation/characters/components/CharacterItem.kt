@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -52,8 +53,9 @@ fun CharacterItem(
         ) {
             GlideImage(
                 modifier = Modifier
-                    //.fillMaxWidth()
-                    .fillMaxSize(),
+                    .clip(RoundedCornerShape(1.dp))
+                    .fillMaxWidth()
+                    .height(200.dp),
                 contentScale = ContentScale.Crop,
                 model = character.imageUrl,
                 contentDescription = character.name,
