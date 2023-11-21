@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
@@ -27,13 +28,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.daveloper.rickandmortyapp.R
-import com.daveloper.rickandmortyapp.core.ui.components.Chip
+import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
@@ -47,78 +51,90 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @Composable
 fun LocationsScreen(
     //navController: NavController,
-    viewModel: LocationsViewModel = hiltViewModel()
+    viewModel: LocationsViewModel = hiltViewModel(),
+    scrollState: LazyGridState
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isRefreshing
     )
+    val shouldHideDataOnScroll by remember(scrollState) {
+        derivedStateOf {
+            !scrollState.isScrollInProgress
+        }
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp
-                )
-                .padding(
-                    top = 16.dp
-                ),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+        AnimatedVisibility(
+            visible = shouldHideDataOnScroll,
+            enter = slideInVertically(),
+            //exit = slideOutVertically(),
         ) {
-            TextField(
+            Row(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
-                        end = 16.dp
+                        horizontal = 16.dp
                     )
-                    .weight(1f)
-                ,
-                value = searchText.text,
-                onValueChange = {
-                    viewModel.onEvent(LocationsEvent.Search(it))
-                },
-                label = {
-                    Text(
-                        searchText.hint
-                    )
-                },
-                singleLine = true,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = "Search bar"
-                    )
-                },
-                trailingIcon = {
-                    if (searchText.text.isNotEmpty()) {
+                    .padding(
+                        top = 16.dp
+                    ),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextField(
+                    modifier = Modifier
+                        .padding(
+                            end = 16.dp
+                        )
+                        .weight(1f)
+                    ,
+                    value = searchText.text,
+                    onValueChange = {
+                        viewModel.onEvent(LocationsEvent.Search(it))
+                    },
+                    label = {
+                        Text(
+                            searchText.hint
+                        )
+                    },
+                    singleLine = true,
+                    leadingIcon = {
                         Icon(
-                            modifier = Modifier.clickable {
-                                viewModel.onEvent(LocationsEvent.ClearSearchBar)
-                            },
-                            imageVector = Icons.Rounded.Clear,
-                            contentDescription = "Search bar dismiss"
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = "Search bar"
+                        )
+                    },
+                    trailingIcon = {
+                        if (searchText.text.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier.clickable {
+                                    viewModel.onEvent(LocationsEvent.ClearSearchBar)
+                                },
+                                imageVector = Icons.Rounded.Clear,
+                                contentDescription = "Search bar dismiss"
+                            )
+                        }
+                    }
+                )
+                IconButton(
+                    modifier = Modifier
+                        .size(24.dp),
+                    onClick = {
+                        viewModel.onEvent(
+                            LocationsEvent.ActivateFilter
                         )
                     }
-                }
-            )
-            IconButton(
-                modifier = Modifier
-                    .size(24.dp),
-                onClick = {
-                    viewModel.onEvent(
-                        LocationsEvent.ActivateFilter
+                ) {
+                    Icon(
+                        imageVector = AppIcon.filterAlt(),
+                        contentDescription = "Filter"
                     )
                 }
-            ) {
-                Icon(
-                    imageVector = AppIcon.filterAlt(),
-                    contentDescription = "Filter"
-                )
             }
         }
         SwipeRefresh(
@@ -202,7 +218,8 @@ fun LocationsScreen(
                         columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(
                             //horizontal = 4.dp
-                        )
+                        ),
+                        state = scrollState,
                     ) {
                         items(state.locations) {
                             LocationItem(

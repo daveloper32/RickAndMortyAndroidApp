@@ -149,6 +149,9 @@ class EpisodesViewModel @Inject constructor(
     private fun getSeasonsEpisode(
     ) {
         try {
+            _state.value = state.value.copy(
+                isNotFoundDataVisible = true
+            )
             getEpisodeSeasonsJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getEpisodeSeasonsJob = getEpisodeSeasonsUseCase
                 .invoke()

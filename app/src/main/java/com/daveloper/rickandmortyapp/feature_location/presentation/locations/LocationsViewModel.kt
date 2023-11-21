@@ -138,6 +138,9 @@ class LocationsViewModel @Inject constructor(
         searchQuery: String = EMPTY_STR
     ) {
         try {
+            _state.value = state.value.copy(
+                isNotFoundDataVisible = true
+            )
             getLocationsJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getLocationsJob = getLocationsUseCase
                 .invoke(

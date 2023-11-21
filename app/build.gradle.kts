@@ -28,9 +28,22 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "rickAndMortyApp"
+            keyPassword = "OVj6!\\T@b9AA!6TjY8(@"
+            storeFile = file("/Users/dave/Documents/Keys/RickAndMortySign/rick_and_morty_daveloper_key.jks")
+            storePassword = "OVj6!\\T@b9AA!6TjY8(@"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isDebuggable = true
+            isMinifyEnabled = true
+            isShrinkResources = true
+            resValue("string", "provider_url", localProperties.getProperty("DEVELOPMENT_PROVIDER_URL"))
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -75,7 +88,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.navigation:navigation-compose:2.7.4")
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // Splash
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -85,12 +98,12 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
 
     // Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0-beta01")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     // Room
-    val roomVersion = "2.5.2"
+    val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     //noinspection KaptUsageInsteadOfKsp
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -108,6 +121,7 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
+    kapt("com.github.bumptech.glide:compiler:5.0.0-rc01")
 
     // Swipe
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")

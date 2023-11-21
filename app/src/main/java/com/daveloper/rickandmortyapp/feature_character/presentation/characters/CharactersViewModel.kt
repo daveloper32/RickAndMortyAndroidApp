@@ -152,6 +152,10 @@ class CharactersViewModel @Inject constructor(
         searchQuery: String = EMPTY_STR
     ) {
         try {
+            Log.i(TAG, "getCharacters() called")
+            _state.value = state.value.copy(
+                isNotFoundDataVisible = true
+            )
             getCharactersJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getCharactersJob = getCharactersUseCase
                 .invoke(
@@ -161,6 +165,7 @@ class CharactersViewModel @Inject constructor(
                     gender = characterFilter.gender
                 )
                 .onEach { characters ->
+                    Log.i(TAG, "getCharacters() answer")
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
                         characters = characters,

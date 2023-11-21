@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import com.daveloper.rickandmortyapp.core.domain.model.ItemDataFilter
-import com.daveloper.rickandmortyapp.core.ui.components.Chip
 
 @Composable
 fun FilterSelector(

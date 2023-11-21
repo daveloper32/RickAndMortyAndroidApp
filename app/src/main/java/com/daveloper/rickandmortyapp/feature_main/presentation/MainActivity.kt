@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.daveloper.rickandmortyapp.core.ui.theme.RickMortyAppTheme
 import com.daveloper.rickandmortyapp.feature_main.presentation.components.MainNavigationCmp
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,5 +31,17 @@ class MainActivity: ComponentActivity() {
                 }
             }
         }
+        setUpKeyboardViewResize()
+    }
+
+    private fun setUpKeyboardViewResize() {
+        ViewCompat
+            .setOnApplyWindowInsetsListener(
+                findViewById(android.R.id.content)
+            ) { view, insets ->
+                val bottom = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                view.updatePadding(bottom = bottom)
+                insets
+            }
     }
 }
