@@ -39,6 +39,8 @@ class CharactersViewModel @Inject constructor(
     companion object {
         private val TAG = CharactersViewModel::class.java.name
     }
+    // Last scroll index/position on view
+    private var lastScrollPosition = 0
     // Character filter selected
     private val characterFilter: CharacterFilter = CharacterFilter(
         lifeStatus = resourceProvider.getStringResource(R.string.lab_all),
@@ -136,6 +138,9 @@ class CharactersViewModel @Inject constructor(
                 }
                 is CharactersEvent.Refresh -> {
                     updateCharacters()
+                }
+                is CharactersEvent.ScrollPosition -> {
+                    updateScrollPosition(event.newPosition)
                 }
             }
         } catch (e: Exception) {
@@ -296,6 +301,35 @@ class CharactersViewModel @Inject constructor(
             updateCharacters(false)
         } catch (e: Exception) {
             Log.e(TAG, "getInitData() error -> $e")
+        }
+    }
+
+    /** Updates the current scroll position an make some actions on the view state based on the update.
+     * */
+    private fun updateScrollPosition(
+        newPosition: Int
+    ) {
+        try {
+            if (
+                newPosition == lastScrollPosition
+            ) {
+                return
+            }
+            _state.value = _state.value.copy(
+                isScrollingUp = newPosition > lastScrollPosition
+            )
+            lastScrollPosition = newPosition
+            if (
+                _state.value.isScrollingUp &&
+                _state.value.isFilterSelectorVisible
+            )  {
+                _state.value = _state.value.copy(
+                    isFilterSelectorVisible = false,
+                    isFilterResumeVisible = true
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "updateScrollPosition() error -> $e", )
         }
     }
 

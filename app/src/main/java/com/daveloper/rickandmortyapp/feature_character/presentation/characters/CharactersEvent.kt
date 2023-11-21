@@ -20,4 +20,8 @@ sealed class CharactersEvent {
     ): CharactersEvent()
 
     object Refresh: CharactersEvent()
+
+    data class ScrollPosition(
+        val newPosition: Int
+    ): CharactersEvent()
 }

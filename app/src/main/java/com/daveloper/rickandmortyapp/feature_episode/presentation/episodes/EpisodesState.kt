@@ -14,6 +14,7 @@ import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
  * @param selectedSeason ([String] type)
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
+ * @param isScrollingUp ([Boolean] type)
  * */
 data class EpisodesState(
     val isFilterResumeVisible: Boolean = true,
@@ -23,4 +24,5 @@ data class EpisodesState(
     val selectedSeason: String = Constants.EMPTY_STR,
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
+    val isScrollingUp: Boolean = false,
 )

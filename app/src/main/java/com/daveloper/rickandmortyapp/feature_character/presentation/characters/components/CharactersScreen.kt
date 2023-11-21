@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Search
@@ -51,25 +52,25 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 fun CharactersScreen(
     //navController: NavController,
     viewModel: CharactersViewModel = hiltViewModel(),
-    scrollState: LazyGridState
+    onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null
 ) {
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = state.isRefreshing
     )
-    val shouldHideDataOnScroll by remember(scrollState) {
-        derivedStateOf {
-            !scrollState.isScrollInProgress
-        }
-    }
+    val scrollState = rememberLazyGridState()
+    onUpdateScrollPosition?.invoke(scrollState.firstVisibleItemIndex)
+    viewModel.onEvent(
+        CharactersEvent.ScrollPosition(scrollState.firstVisibleItemIndex)
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         AnimatedVisibility(
-            visible = shouldHideDataOnScroll,
+            visible = !state.isScrollingUp,
             enter = slideInVertically(),
             //exit = slideOutVertically(),
         ) {

@@ -33,10 +33,11 @@ class LocationsViewModel @Inject constructor(
     private val getLocationTypesUseCase: GetLocationTypesUseCase,
     private val getLocationDimensionsUseCase: GetLocationDimensionsUseCase,
 ): ViewModel() {
-
     companion object {
         private val TAG = LocationsViewModel::class.java.name
     }
+    // Last scroll index/position on view
+    private var lastScrollPosition = 0
     // Location filter selected
     private val locationFilter: LocationFilter = LocationFilter(
         type = resourceProvider.getStringResource(R.string.lab_all),
@@ -122,6 +123,9 @@ class LocationsViewModel @Inject constructor(
                 }
                 is LocationsEvent.Refresh -> {
                     updateLocations()
+                }
+                is LocationsEvent.ScrollPosition -> {
+                    updateScrollPosition(event.newPosition)
                 }
             }
         } catch (e: Exception) {
@@ -253,6 +257,35 @@ class LocationsViewModel @Inject constructor(
             updateLocations(false)
         } catch (e: Exception) {
             Log.e(TAG, "getInitData() error -> $e")
+        }
+    }
+
+    /** Updates the current scroll position an make some actions on the view state based on the update.
+     * */
+    private fun updateScrollPosition(
+        newPosition: Int
+    ) {
+        try {
+            if (
+                newPosition == lastScrollPosition
+            ) {
+                return
+            }
+            _state.value = _state.value.copy(
+                isScrollingUp = newPosition > lastScrollPosition
+            )
+            lastScrollPosition = newPosition
+            if (
+                _state.value.isScrollingUp &&
+                _state.value.isFilterSelectorVisible
+            )  {
+                _state.value = _state.value.copy(
+                    isFilterSelectorVisible = false,
+                    isFilterResumeVisible = true
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "updateScrollPosition() error -> $e", )
         }
     }
 

@@ -35,6 +35,8 @@ class EpisodesViewModel @Inject constructor(
     companion object {
         private val TAG = EpisodesViewModel::class.java.name
     }
+    // Last scroll index/position on view
+    private var lastScrollPosition = 0
     // Episode filter selected
     private val episodeFilter: EpisodeFilter = EpisodeFilter(
         season = resourceProvider.getStringResource(R.string.lab_all),
@@ -108,6 +110,9 @@ class EpisodesViewModel @Inject constructor(
                 }
                 is EpisodesEvent.Refresh -> {
                     updateEpisodes()
+                }
+                is EpisodesEvent.ScrollPosition -> {
+                    updateScrollPosition(event.newPosition)
                 }
             }
         } catch (e: Exception) {
@@ -212,6 +217,36 @@ class EpisodesViewModel @Inject constructor(
             updateEpisodes(false)
         } catch (e: Exception) {
             Log.e(TAG, "getInitData() error -> $e")
+        }
+    }
+
+
+    /** Updates the current scroll position an make some actions on the view state based on the update.
+     * */
+    private fun updateScrollPosition(
+        newPosition: Int
+    ) {
+        try {
+            if (
+                newPosition == lastScrollPosition
+            ) {
+                return
+            }
+            _state.value = _state.value.copy(
+                isScrollingUp = newPosition > lastScrollPosition
+            )
+            lastScrollPosition = newPosition
+            if (
+                _state.value.isScrollingUp &&
+                _state.value.isFilterSelectorVisible
+            )  {
+                _state.value = _state.value.copy(
+                    isFilterSelectorVisible = false,
+                    isFilterResumeVisible = true
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "updateScrollPosition() error -> $e", )
         }
     }
 

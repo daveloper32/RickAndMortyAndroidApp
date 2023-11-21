@@ -20,4 +20,8 @@ sealed class LocationsEvent {
     ): LocationsEvent()
 
     object Refresh: LocationsEvent()
+
+    data class ScrollPosition(
+        val newPosition: Int
+    ): LocationsEvent()
 }

@@ -17,6 +17,7 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
  * @param selectedGender ([String] type)
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
+ * @param isScrollingUp ([Boolean] type)
  * */
 data class CharactersState(
     val isFilterResumeVisible: Boolean = true,
@@ -30,4 +31,5 @@ data class CharactersState(
     val selectedGender: String = EMPTY_STR,
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
+    val isScrollingUp: Boolean = false,
 )

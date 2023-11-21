@@ -10,6 +10,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,19 +25,16 @@ import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavigationCmp() {
+fun MainNavigationCmp(
+    viewModel: MainNavigationViewModel = hiltViewModel(),
+) {
     var navigationSelectedItem by rememberSaveable {
         mutableStateOf(0)
     }
+    val state = viewModel.state.value
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
-    val scrollState = rememberLazyGridState()
-    val shouldHideBottomBar by remember(scrollState) {
-        derivedStateOf {
-            !scrollState.isScrollInProgress
-        }
-    }
 
     MainNavigationDrawer(
         drawerState = drawerState,
@@ -59,7 +57,7 @@ fun MainNavigationCmp() {
                 .fillMaxSize(),
             bottomBar = {
                 MainBottomNavigation(
-                    isVisible = shouldHideBottomBar,
+                    isVisible = !state.isScrollingUp,
                     currentIndexItemSelected = navigationSelectedItem,
                     onItemClicked = { index, bottomNavigationItem ->
                         navigationSelectedItem = index
@@ -78,13 +76,31 @@ fun MainNavigationCmp() {
                     .padding(paddingValues = paddingValues)
             ) {
                 composable(Screen.CharactersScreen.route) {
-                    CharactersScreen(scrollState = scrollState)
+                    CharactersScreen(
+                        onUpdateScrollPosition = { newPosition ->
+                            viewModel.onEvent(
+                                MainNavigationEvent.ScrollPosition(newPosition)
+                            )
+                        }
+                    )
                 }
                 composable(Screen.EpisodesScreen.route) {
-                    EpisodesScreen(scrollState = scrollState)
+                    EpisodesScreen(
+                        onUpdateScrollPosition = { newPosition ->
+                            viewModel.onEvent(
+                                MainNavigationEvent.ScrollPosition(newPosition)
+                            )
+                        }
+                    )
                 }
                 composable(Screen.LocationsScreen.route) {
-                    LocationsScreen(scrollState = scrollState)
+                    LocationsScreen(
+                        onUpdateScrollPosition = { newPosition ->
+                            viewModel.onEvent(
+                                MainNavigationEvent.ScrollPosition(newPosition)
+                            )
+                        }
+                    )
                 }
             }
         }

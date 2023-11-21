@@ -20,4 +20,8 @@ sealed class EpisodesEvent {
     ): EpisodesEvent()
 
     object Refresh: EpisodesEvent()
+
+    data class ScrollPosition(
+        val newPosition: Int
+    ): EpisodesEvent()
 }
