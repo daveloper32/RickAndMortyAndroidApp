@@ -20,4 +20,5 @@
     <string name="lab_characters">Characters</string>
     <string name="lab_episodes">Episodes</string>
     <string name="lab_locations">Locations</string>
+    <string name="lab_app_version">v. %s</string>
 </resources>
