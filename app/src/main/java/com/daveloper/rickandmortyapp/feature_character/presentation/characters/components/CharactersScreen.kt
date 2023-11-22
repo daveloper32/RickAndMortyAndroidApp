@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
@@ -28,9 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -162,15 +158,30 @@ fun CharactersScreen(
                             ) {
                                 Chip(
                                     name = state.selectedLifeStatus,
-                                    subTitle = stringResource(id = R.string.lab_life_status)
+                                    subTitle = stringResource(id = R.string.lab_life_status),
+                                    onChipClicked = {
+                                        viewModel.onEvent(
+                                            CharactersEvent.ActivateFilter
+                                        )
+                                    }
                                 )
                                 Chip(
                                     name = state.selectedSpecies,
-                                    subTitle = stringResource(id = R.string.lab_species)
+                                    subTitle = stringResource(id = R.string.lab_species),
+                                    onChipClicked = {
+                                        viewModel.onEvent(
+                                            CharactersEvent.ActivateFilter
+                                        )
+                                    }
                                 )
                                 Chip(
                                     name = state.selectedGender,
-                                    subTitle = stringResource(id = R.string.lab_gender)
+                                    subTitle = stringResource(id = R.string.lab_gender),
+                                    onChipClicked = {
+                                        viewModel.onEvent(
+                                            CharactersEvent.ActivateFilter
+                                        )
+                                    }
                                 )
                             }
                         }
