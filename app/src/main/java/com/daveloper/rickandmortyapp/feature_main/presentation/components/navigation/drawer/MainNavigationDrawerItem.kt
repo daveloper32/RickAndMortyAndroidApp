@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +31,10 @@ fun MainNavigationDrawerItem(
             ),
         selected = isSelected,
         label = {
-            Text(text = label)
+            Text(
+                text = label,
+                fontSize = 12.sp
+            )
         },
         icon = {
             Icon(
