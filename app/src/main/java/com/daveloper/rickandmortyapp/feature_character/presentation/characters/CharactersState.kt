@@ -18,6 +18,7 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
  * @param isScrollingUp ([Boolean] type)
+ * @param isScrollUpButtonVisible ([Boolean] type)
  * */
 data class CharactersState(
     val isFilterResumeVisible: Boolean = true,
@@ -32,4 +33,5 @@ data class CharactersState(
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
     val isScrollingUp: Boolean = false,
+    val isScrollUpButtonVisible: Boolean = false,
 )

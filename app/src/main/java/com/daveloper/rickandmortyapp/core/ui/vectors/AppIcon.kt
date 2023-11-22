@@ -58,4 +58,54 @@ object AppIcon {
             }.build()
         }
     }
+
+    @Composable
+    fun arrowUpward(): ImageVector {
+        return remember {
+            ImageVector.Builder(
+                name = "arrow_upward",
+                defaultWidth = 40.0.dp,
+                defaultHeight = 40.0.dp,
+                viewportWidth = 40.0f,
+                viewportHeight = 40.0f
+            ).apply {
+                path(
+                    fill = SolidColor(Color.Black),
+                    fillAlpha = 1f,
+                    stroke = null,
+                    strokeAlpha = 1f,
+                    strokeLineWidth = 1.0f,
+                    strokeLineCap = StrokeCap.Butt,
+                    strokeLineJoin = StrokeJoin.Miter,
+                    strokeLineMiter = 1f,
+                    pathFillType = PathFillType.NonZero
+                ) {
+                    moveTo(20f, 33.125f)
+                    quadToRelative(-0.542f, 0f, -0.917f, -0.375f)
+                    reflectiveQuadToRelative(-0.375f, -0.958f)
+                    verticalLineTo(11.917f)
+                    lineToRelative(-9.041f, 9f)
+                    quadToRelative(-0.417f, 0.416f, -0.938f, 0.416f)
+                    quadToRelative(-0.521f, 0f, -0.937f, -0.416f)
+                    quadToRelative(-0.375f, -0.375f, -0.375f, -0.917f)
+                    reflectiveQuadToRelative(0.375f, -0.917f)
+                    lineTo(19.083f, 7.792f)
+                    quadToRelative(0.209f, -0.209f, 0.438f, -0.292f)
+                    quadToRelative(0.229f, -0.083f, 0.479f, -0.083f)
+                    quadToRelative(0.25f, 0f, 0.479f, 0.083f)
+                    quadToRelative(0.229f, 0.083f, 0.438f, 0.292f)
+                    lineToRelative(11.291f, 11.291f)
+                    quadToRelative(0.375f, 0.375f, 0.375f, 0.917f)
+                    reflectiveQuadToRelative(-0.375f, 0.917f)
+                    quadToRelative(-0.416f, 0.416f, -0.937f, 0.416f)
+                    quadToRelative(-0.521f, 0f, -0.938f, -0.416f)
+                    lineToRelative(-9f, -9f)
+                    verticalLineToRelative(19.875f)
+                    quadToRelative(0f, 0.583f, -0.395f, 0.958f)
+                    quadToRelative(-0.396f, 0.375f, -0.938f, 0.375f)
+                    close()
+                }
+            }.build()
+        }
+    }
 }

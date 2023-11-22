@@ -272,7 +272,8 @@ class LocationsViewModel @Inject constructor(
                 return
             }
             _state.value = _state.value.copy(
-                isScrollingUp = newPosition > lastScrollPosition
+                isScrollingUp = newPosition > lastScrollPosition,
+                isScrollUpButtonVisible = newPosition > 0
             )
             lastScrollPosition = newPosition
             if (

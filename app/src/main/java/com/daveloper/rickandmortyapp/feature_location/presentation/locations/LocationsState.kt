@@ -17,6 +17,7 @@ import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
  * @param isScrollingUp ([Boolean] type)
+ * @param isScrollUpButtonVisible ([Boolean] type)
  * */
 data class LocationsState (
     val isFilterResumeVisible: Boolean = true,
@@ -29,4 +30,5 @@ data class LocationsState (
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
     val isScrollingUp: Boolean = false,
+    val isScrollUpButtonVisible: Boolean = false,
 )
