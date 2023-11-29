@@ -21,6 +21,18 @@ interface CharacterDao {
         searchQuery: String
     ): Flow<List<CharacterEntity>>
 
+    /**Gets a [Flow] of all [CharacterEntity] saved on the [RickAndMortyDatabase]
+     *
+     * @param searchQuery ([String] type) - Filter results by [CharacterEntity] name, if the query
+     * is empty, it returns all the data found in the DB.
+     * @param amount ([Int] type) - Gets just some results.
+     * @return [Flow]<[List]<[CharacterEntity]>>*/
+    @Query("SELECT * FROM characterEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%') LIMIT :amount")
+    fun getCharactersWithLimit(
+        searchQuery: String,
+        amount: Int
+    ): Flow<List<CharacterEntity>>
+
     /**Search and get a [CharacterEntity] that matches with the input id from the
      * [RickAndMortyDatabase].
      *

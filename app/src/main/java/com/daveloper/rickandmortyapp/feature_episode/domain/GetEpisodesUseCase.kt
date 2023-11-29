@@ -25,15 +25,19 @@ class GetEpisodesUseCase @Inject constructor(
      * default is an empty string that gets all the [Episode].
      * @param season ([String] type) -> You can filter by some [Episode] season. By
      * default filter results by all seasons. If the value is 'all' the filter is not applied.
+     * @param quantity ([Int]? type) - filter and gets the just the amount of results found. If it
+     * is null, return all results found.
      * @return [Flow]<[List]<[Episode]>>
      * */
     operator fun invoke(
         searchQuery: String = Constants.EMPTY_STR,
         season: String = resourceProvider.getStringResource(R.string.lab_all),
+        quantity: Int? = null
     ): Flow<List<Episode>> {
         return try {
             episodeRepository.getEpisodesInRealTime(
-                searchQuery
+                searchQuery,
+                quantity
             ).mapNotNull { episodes ->
                 episodes.mapNotNull { episode ->
                     episode.toDomain()

@@ -29,6 +29,8 @@ class GetCharactersUseCase @Inject constructor(
      * results by all species. If the value is 'all' the filter is not applied.
      * @param gender ([String] type) -> You can filter by some [Character] gender. By default filter
      * results by all genders. If the value is 'all' the filter is not applied.
+     * @param quantity ([Int]? type) - filter and gets the just the amount of results found. If it
+     * is null, return all results found.
      * @return [Flow]<[List]<[Character]>>
      * */
     operator fun invoke(
@@ -36,10 +38,12 @@ class GetCharactersUseCase @Inject constructor(
         lifeStatus: String = resourceProvider.getStringResource(R.string.lab_all),
         species: String = resourceProvider.getStringResource(R.string.lab_all),
         gender: String = resourceProvider.getStringResource(R.string.lab_all),
+        quantity: Int? = null
     ): Flow<List<Character>> {
         return try {
             characterRepository.getCharactersInRealTime(
-                searchQuery
+                searchQuery,
+                quantity
             ).mapNotNull { characters ->
                 characters.mapNotNull { character ->
                     character.toDomain()

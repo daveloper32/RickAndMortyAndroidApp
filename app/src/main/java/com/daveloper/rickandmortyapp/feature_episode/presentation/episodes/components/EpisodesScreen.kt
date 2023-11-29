@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
@@ -217,9 +216,14 @@ fun EpisodesScreen(
                             ),
                             state = scrollState,
                         ) {
-                            items(state.episodes) {
+                            items(
+                                count = state.episodes.size,
+                                key = {
+                                    state.episodes[it].id
+                                },
+                            ) {
                                 EpisodeItem(
-                                    episode = it
+                                    episode = state.episodes[it]
                                 )
                             }
                         }

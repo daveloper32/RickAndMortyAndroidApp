@@ -21,6 +21,18 @@ interface EpisodeDao {
         searchQuery: String
     ): Flow<List<EpisodeEntity>>
 
+    /**Gets a [Flow] of all [EpisodeEntity] saved on the [RickAndMortyDatabase]
+     *
+     * @param searchQuery ([String] type) - Filter results by [EpisodeEntity] name, if the query
+     * is empty, it returns all the data found in the DB.
+     * @param amount ([Int] type) - Gets just some results.
+     * @return [Flow]<[List]<[EpisodeEntity]>>*/
+    @Query("SELECT * FROM episodeEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%') LIMIT :amount")
+    fun getEpisodesWithLimit(
+        searchQuery: String,
+        amount: Int
+    ): Flow<List<EpisodeEntity>>
+
     /**Search and get a [EpisodeEntity] that matches with the input id from the
      * [RickAndMortyDatabase].
      *

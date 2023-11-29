@@ -62,18 +62,32 @@ class LocationRepositoryImpl @Inject constructor(
     }
 
     override fun getLocationsInRealTime(
-        searchQuery: String
+        searchQuery: String,
+        quantity: Int?
     ): Flow<List<LocationData>> {
         return try {
-            locationDao
-                .getLocations(
-                    searchQuery = searchQuery
-                )
-                .mapNotNull { locations ->
-                    locations.mapNotNull { location ->
-                        location.toLocationData()
+            if (quantity == null) {
+                locationDao
+                    .getLocations(
+                        searchQuery = searchQuery
+                    )
+                    .mapNotNull { locations ->
+                        locations.mapNotNull { location ->
+                            location.toLocationData()
+                        }
                     }
-                }
+            } else {
+                locationDao
+                    .getLocationsWithLimit(
+                        searchQuery = searchQuery,
+                        amount = quantity
+                    )
+                    .mapNotNull { locations ->
+                        locations.mapNotNull { location ->
+                            location.toLocationData()
+                        }
+                    }
+            }
         } catch (e: Exception) {
             throw LocationRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)

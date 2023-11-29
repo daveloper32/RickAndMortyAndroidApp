@@ -1,6 +1,7 @@
 package com.daveloper.rickandmortyapp.feature_main.presentation.components.navigation.drawer
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
@@ -13,6 +14,11 @@ import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 @Composable
 fun NavigationDrawerItems(): List<NavigationDrawerItem> {
     return listOf(
+        NavigationDrawerItem(
+            label = stringResource(id = R.string.lab_home),
+            icon = Icons.Filled.Home,
+            route = Screen.HomeScreen.route
+        ),
         NavigationDrawerItem(
             label = stringResource(id = R.string.lab_characters),
             icon = Icons.Filled.Person,

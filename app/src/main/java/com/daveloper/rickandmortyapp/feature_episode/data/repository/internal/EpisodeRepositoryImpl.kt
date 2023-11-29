@@ -61,18 +61,32 @@ class EpisodeRepositoryImpl @Inject constructor(
     }
 
     override fun getEpisodesInRealTime(
-        searchQuery: String
+        searchQuery: String,
+        quantity: Int?
     ): Flow<List<EpisodeData>> {
         return try {
-            episodeDao
-                .getEpisodes(
-                    searchQuery = searchQuery
-                )
-                .mapNotNull { episodes ->
-                    episodes.mapNotNull { episode ->
-                        episode.toEpisodeData()
+            if (quantity == null) {
+                episodeDao
+                    .getEpisodes(
+                        searchQuery = searchQuery
+                    )
+                    .mapNotNull { episodes ->
+                        episodes.mapNotNull { episode ->
+                            episode.toEpisodeData()
+                        }
                     }
-                }
+            } else {
+                episodeDao
+                    .getEpisodesWithLimit(
+                        searchQuery = searchQuery,
+                        amount = quantity
+                    )
+                    .mapNotNull { episodes ->
+                        episodes.mapNotNull { episode ->
+                            episode.toEpisodeData()
+                        }
+                    }
+            }
         } catch (e: Exception) {
             throw EpisodeRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)

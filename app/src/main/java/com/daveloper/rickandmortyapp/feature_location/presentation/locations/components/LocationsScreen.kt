@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
@@ -234,9 +233,14 @@ fun LocationsScreen(
                             ),
                             state = scrollState,
                         ) {
-                            items(state.locations) {
+                            items(
+                                count = state.locations.size,
+                                key = {
+                                    state.locations[it].id
+                                },
+                            ) {
                                 LocationItem(
-                                    location = it
+                                    location = state.locations[it]
                                 )
                             }
                         }

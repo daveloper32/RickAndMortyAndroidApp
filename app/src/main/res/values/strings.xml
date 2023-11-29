@@ -17,6 +17,7 @@
     <string name="lab_type">Type</string>
     <string name="lab_dimension">Dimension</string>
     <string name="lab_unknown">Unknown</string>
+    <string name="lab_home">Home</string>
     <string name="lab_characters">Characters</string>
     <string name="lab_episodes">Episodes</string>
     <string name="lab_locations">Locations</string>

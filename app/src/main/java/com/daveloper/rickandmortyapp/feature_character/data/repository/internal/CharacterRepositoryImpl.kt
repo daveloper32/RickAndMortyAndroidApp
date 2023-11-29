@@ -62,18 +62,32 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     override fun getCharactersInRealTime(
-        searchQuery: String
+        searchQuery: String,
+        quantity: Int?
     ): Flow<List<CharacterData>> {
         return try {
-            characterDao
-                .getCharacters(
-                    searchQuery = searchQuery
-                )
-                .mapNotNull { characters ->
-                    characters.mapNotNull { character ->
-                        character.toCharacterData()
+            if (quantity == null) {
+                characterDao
+                    .getCharacters(
+                        searchQuery = searchQuery
+                    )
+                    .mapNotNull { characters ->
+                        characters.mapNotNull { character ->
+                            character.toCharacterData()
+                        }
                     }
-                }
+            } else {
+                characterDao
+                    .getCharactersWithLimit(
+                        searchQuery = searchQuery,
+                        amount = quantity
+                    )
+                    .mapNotNull { characters ->
+                        characters.mapNotNull { character ->
+                            character.toCharacterData()
+                        }
+                    }
+            }
         } catch (e: Exception) {
             throw CharacterRepositoryException.Unknown(
                 e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)

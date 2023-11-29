@@ -21,10 +21,13 @@ interface CharacterRepository {
      *
      * @param searchQuery ([String] type) - query to filter results (for now by name). By default it
      * is not required and it have an empty string as its value
+     * @param quantity ([Int]? type) - filter and gets the just the amount of results found. If it
+     * is null, return all results found.
      * @return [Flow]<[List]<[CharacterData]>>
      * @throws [CharacterRepositoryException]*/
     fun getCharactersInRealTime(
-        searchQuery: String = Constants.EMPTY_STR
+        searchQuery: String = Constants.EMPTY_STR,
+        quantity: Int? = null
     ): Flow<List<CharacterData>>
 
     /** Function that search and gets a list of characters by ids from Local

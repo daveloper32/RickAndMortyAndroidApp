@@ -18,6 +18,7 @@ import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.close
 import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.onNavigationItemClicked
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharactersScreen
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodesScreen
+import com.daveloper.rickandmortyapp.feature_home.presentation.home.HomeScreen
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationsScreen
 import com.daveloper.rickandmortyapp.feature_main.presentation.components.navigation.bottom.MainBottomNavigation
 import com.daveloper.rickandmortyapp.feature_main.presentation.components.navigation.drawer.MainNavigationDrawer
@@ -71,10 +72,19 @@ fun MainNavigationCmp(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Screen.CharactersScreen.route,
+                startDestination = Screen.HomeScreen.route,
                 modifier = Modifier
                     .padding(paddingValues = paddingValues)
             ) {
+                composable(Screen.HomeScreen.route) {
+                    HomeScreen(
+                        onUpdateScrollPosition = { newPosition ->
+                            viewModel.onEvent(
+                                MainNavigationEvent.ScrollPosition(newPosition)
+                            )
+                        }
+                    )
+                }
                 composable(Screen.CharactersScreen.route) {
                     CharactersScreen(
                         onUpdateScrollPosition = { newPosition ->

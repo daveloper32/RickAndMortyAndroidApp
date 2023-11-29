@@ -28,16 +28,20 @@ class GetLocationsUseCase @Inject constructor(
      * default filter results by all type. If the value is 'all' the filter is not applied.
      * @param dimension ([String] type) -> You can filter by some [Location] dimension. By default
      * filter results by all dimensions. If the value is 'all' the filter is not applied.
+     * @param quantity ([Int]? type) - filter and gets the just the amount of results found. If it
+     * is null, return all results found.
      * @return [Flow]<[List]<[Location]>>
      * */
     operator fun invoke(
         searchQuery: String = Constants.EMPTY_STR,
         type: String = resourceProvider.getStringResource(R.string.lab_all),
         dimension: String = resourceProvider.getStringResource(R.string.lab_all),
+        quantity: Int? = null
     ): Flow<List<Location>> {
         return try {
             locationRepository.getLocationsInRealTime(
-                searchQuery
+                searchQuery,
+                quantity
             ).mapNotNull { locations ->
                 locations.mapNotNull { location ->
                     location.toDomain()

@@ -5,19 +5,32 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.daveloper.rickandmortyapp.core.data.db.RickAndMortyDatabase
 import com.daveloper.rickandmortyapp.feature_location.data.db.model.LocationEntity
 import kotlinx.coroutines.flow.Flow
-import com.daveloper.rickandmortyapp.core.data.db.RickAndMortyDatabase
-import com.daveloper.rickandmortyapp.feature_character.data.db.model.CharacterEntity
 
 @Dao
 interface LocationDao {
     /**Gets a [Flow] of all [LocationEntity] saved on the [RickAndMortyDatabase]
      *
+     * @param searchQuery ([String] type) - Filter results by [LocationEntity] name, if the query
+     * is empty, it returns all the data found in the DB.
      * @return [Flow]<[List]<[LocationEntity]>>*/
     @Query("SELECT * FROM locationEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%')")
     fun getLocations(
         searchQuery: String
+    ): Flow<List<LocationEntity>>
+
+    /**Gets a [Flow] of all [LocationEntity] saved on the [RickAndMortyDatabase]
+     *
+     * @param searchQuery ([String] type) - Filter results by [LocationEntity] name, if the query
+     * is empty, it returns all the data found in the DB.
+     * @param amount ([Int] type) - Gets just some results.
+     * @return [Flow]<[List]<[LocationEntity]>>*/
+    @Query("SELECT * FROM locationEntity WHERE (:searchQuery = '' OR name LIKE '%' || :searchQuery || '%') LIMIT :amount")
+    fun getLocationsWithLimit(
+        searchQuery: String,
+        amount: Int
     ): Flow<List<LocationEntity>>
 
     /**Search and get a [LocationEntity] that matches with the input id from the
