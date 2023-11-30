@@ -13,8 +13,10 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
 import com.daveloper.rickandmortyapp.feature_episode.domain.GetEpisodesUseCase
 import com.daveloper.rickandmortyapp.feature_episode.domain.UpdateEpisodesUseCase
 import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
+import com.daveloper.rickandmortyapp.feature_home.domain.enums.AppDataType
 import com.daveloper.rickandmortyapp.feature_location.domain.GetLocationsUseCase
 import com.daveloper.rickandmortyapp.feature_location.domain.UpdateLocationsUseCase
+import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -42,6 +44,11 @@ class HomeViewModel @Inject constructor(
         HomeState()
     )
     val state: State<HomeState> = _state
+    // View Model connexion ui state
+    private val _uiState = mutableStateOf<HomeUIState>(
+        HomeUIState.NavigateTo()
+    )
+    val uiState: State<HomeUIState> get() = _uiState
 
     // Job to control the characters flow
     private var getCharactersJob: Job? = null
@@ -70,13 +77,16 @@ class HomeViewModel @Inject constructor(
         try {
             when (event) {
                 is HomeEvent.LoadMoreData -> {
-
+                    loadMoreData(event.dataType)
                 }
                 HomeEvent.Refresh -> {
                     updateAllData()
                 }
                 is HomeEvent.ScrollPosition -> {
                     updateScrollPosition(event.newPosition)
+                }
+                is HomeEvent.NavigationCompleted -> {
+                    _uiState.value = HomeUIState.NavigateTo(null)
                 }
             }
         } catch (e: Exception) {
@@ -245,11 +255,39 @@ class HomeViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 updateCharacters(false)
+            }
+            viewModelScope.launch {
                 updateEpisodes(false)
+            }
+            viewModelScope.launch {
                 updateLocations(false)
             }
         } catch (e: Exception) {
             Log.e(TAG, "getInitData() error -> $e")
+        }
+    }
+
+    /** Navigates to the specific screen module based on the input [AppDataType].
+     *
+     * @param dataType ([AppDataType] type)
+     * */
+    private fun loadMoreData(
+        dataType: AppDataType
+    ) {
+        try {
+            when (dataType) {
+                AppDataType.CHARACTER -> {
+                    _uiState.value = HomeUIState.NavigateTo(Screen.CharactersScreen)
+                }
+                AppDataType.EPISODE -> {
+                    _uiState.value = HomeUIState.NavigateTo(Screen.EpisodesScreen)
+                }
+                AppDataType.LOCATION -> {
+                    _uiState.value = HomeUIState.NavigateTo(Screen.LocationsScreen)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "loadMoreData() error -> $e")
         }
     }
 

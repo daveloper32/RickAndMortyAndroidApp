@@ -13,9 +13,9 @@ fun MainBottomNavigation(
     currentIndexItemSelected: Int,
     onItemClicked: (
         (
-        index: Int,
-        bottomNavigationItem: BottomNavigationItem
-    ) -> Unit
+            index: Int,
+            bottomNavigationItem: BottomNavigationItem
+        ) -> Unit
     )? = null,
 ) {
     AnimatedVisibility(

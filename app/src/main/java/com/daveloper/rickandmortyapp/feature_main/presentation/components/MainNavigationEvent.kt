@@ -1,5 +1,7 @@
 package com.daveloper.rickandmortyapp.feature_main.presentation.components
 
+import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
+
 /** The [MainNavigationEvent] describe all the possible events that could be launched by
  * [MainNavigationCmp].
  * */

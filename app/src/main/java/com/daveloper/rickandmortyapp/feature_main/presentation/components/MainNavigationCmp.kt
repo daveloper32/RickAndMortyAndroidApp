@@ -2,7 +2,6 @@ package com.daveloper.rickandmortyapp.feature_main.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -32,7 +31,9 @@ fun MainNavigationCmp(
     var navigationSelectedItem by rememberSaveable {
         mutableStateOf(0)
     }
+
     val state = viewModel.state.value
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
@@ -81,6 +82,13 @@ fun MainNavigationCmp(
                         onUpdateScrollPosition = { newPosition ->
                             viewModel.onEvent(
                                 MainNavigationEvent.ScrollPosition(newPosition)
+                            )
+                        },
+                        onNavigate = { screen ->
+                            navigationSelectedItem = screen.index
+                            onNavigationItemClicked(
+                                route = screen.route,
+                                navController = navController
                             )
                         }
                     )

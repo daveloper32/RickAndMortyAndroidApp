@@ -15,4 +15,6 @@ sealed class HomeEvent {
     data class ScrollPosition(
         val newPosition: Int
     ): HomeEvent()
+
+    object NavigationCompleted: HomeEvent()
 }
