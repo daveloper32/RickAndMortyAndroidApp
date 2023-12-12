@@ -3,6 +3,7 @@ package com.daveloper.rickandmortyapp.feature_home.presentation.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,10 +40,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilityFloatingActionButton
 import com.daveloper.rickandmortyapp.core.ui.components.custom.CardWithTextComponent
 import com.daveloper.rickandmortyapp.core.ui.components.custom.SubHeaderComponent
+import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterItem
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeItem
@@ -58,11 +61,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
-    //navController: NavController,
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
     onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null,
-    onNavigate: ((Screen) -> Unit)? = null
+    onNavigate: ((Screen) -> Unit)? = null,
+    onToolbarButtonClick: (() -> Unit)? = null,
 ) {
+    AutoFinishBackPressHandler()
     val state = viewModel.state.value
     val uiState = viewModel.uiState.value
     when (uiState) {
@@ -101,7 +106,10 @@ fun HomeScreen(
                        .padding(
                            vertical = 12.dp,
                            horizontal = 12.dp
-                       )
+                       ),
+                   onClick = {
+                       onToolbarButtonClick?.invoke()
+                   }
                )
             }
             SwipeRefresh(
@@ -141,7 +149,13 @@ fun HomeScreen(
                                         .width(200.dp)
                                         .height(268.dp),
                                     character = state.characters[it],
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.CharacterDetailsScreen.createRoute(
+                                            characterId = it.id
+                                        )
+                                    )
+                                }
                             }
                             item {
                                 CardWithTextComponent(
@@ -269,7 +283,8 @@ fun HomeScreen(
 
 @Composable
 fun HomeAppBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     Card(
         shape = AbsoluteCutCornerShape(
@@ -294,7 +309,9 @@ fun HomeAppBar(
                         CircleShape // Circle the image corners
                     )
                     .size(36.dp)
-
+                    .clickable {
+                        onClick?.invoke()
+                    }
             )
             Spacer(modifier = Modifier.size(10.dp))
             Text(

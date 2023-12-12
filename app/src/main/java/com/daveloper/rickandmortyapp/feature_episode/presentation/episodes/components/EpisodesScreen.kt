@@ -39,6 +39,7 @@ import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilit
 import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
+import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_episode.domain.enums.EpisodeFilterType
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesEvent
@@ -54,6 +55,7 @@ fun EpisodesScreen(
     viewModel: EpisodesViewModel = hiltViewModel(),
     onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null
 ) {
+    AutoFinishBackPressHandler()
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
     val swipeRefreshState = rememberSwipeRefreshState(

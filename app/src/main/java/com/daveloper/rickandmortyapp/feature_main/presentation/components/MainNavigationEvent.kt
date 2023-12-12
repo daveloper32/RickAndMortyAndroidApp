@@ -9,4 +9,8 @@ sealed class MainNavigationEvent {
     data class ScrollPosition(
         val newPosition: Int
     ): MainNavigationEvent()
+
+    data class Navigation(
+        val screen: Screen
+    ): MainNavigationEvent()
 }

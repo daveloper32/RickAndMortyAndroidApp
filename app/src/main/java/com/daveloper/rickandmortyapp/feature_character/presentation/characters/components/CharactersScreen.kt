@@ -31,19 +31,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilityFloatingActionButton
 import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
+import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon.arrowUpward
 import com.daveloper.rickandmortyapp.feature_character.domain.enums.CharacterFilterType
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersEvent
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersViewModel
+import com.daveloper.rickandmortyapp.feature_main.presentation.components.findActivity
+import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
@@ -51,10 +57,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharactersScreen(
-    //navController: NavController,
+    navController: NavController,
     viewModel: CharactersViewModel = hiltViewModel(),
     onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null
 ) {
+    AutoFinishBackPressHandler()
     val state = viewModel.state.value
     val searchText = viewModel.searchText.value
     val swipeRefreshState = rememberSwipeRefreshState(
@@ -262,7 +269,13 @@ fun CharactersScreen(
                             ) {
                                 CharacterItem(
                                     character = state.characters[it]
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.CharacterDetailsScreen.createRoute(
+                                            characterId = it.id
+                                        )
+                                    )
+                                }
                             }
                         }
                     } else {

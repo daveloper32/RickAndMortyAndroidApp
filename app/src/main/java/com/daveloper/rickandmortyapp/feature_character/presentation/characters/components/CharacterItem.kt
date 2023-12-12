@@ -40,13 +40,16 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
 fun CharacterItem(
     character: Character,
     modifier: Modifier = Modifier,
+    onClick: ((Character) -> Unit)? = null
 ) {
     Card(
         modifier = modifier
             .padding(
                 8.dp
             ),
-        onClick = { /*TODO*/ }
+        onClick = {
+            onClick?.invoke(character)
+        }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

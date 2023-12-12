@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,6 +33,14 @@ class MainNavigationViewModel @Inject constructor(
             when (event) {
                 is MainNavigationEvent.ScrollPosition -> {
                     updateScrollPosition(event.newPosition)
+                }
+                is MainNavigationEvent.Navigation -> {
+                    _state.value = _state.value.copy(
+                        isBottomNavigationBarVisible = when (event.screen) {
+                            Screen.CharacterDetailsScreen -> false
+                            else -> true
+                        }
+                    )
                 }
             }
         } catch (e: Exception) {

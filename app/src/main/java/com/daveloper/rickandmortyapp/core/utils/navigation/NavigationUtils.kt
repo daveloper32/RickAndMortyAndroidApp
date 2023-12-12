@@ -29,6 +29,19 @@ object NavigationUtils {
 
     @SuppressLint("CoroutineCreationDuringComposition")
     @OptIn(ExperimentalMaterial3Api::class)
+    fun openNavigationDrawer(
+        coroutineScope: CoroutineScope? = null,
+        drawerState: DrawerState? = null,
+    ) {
+        coroutineScope?.launch {
+            drawerState?.apply {
+                if (!isOpen) open()
+            }
+        }
+    }
+
+    @SuppressLint("CoroutineCreationDuringComposition")
+    @OptIn(ExperimentalMaterial3Api::class)
     fun closeNavigationDrawer(
         coroutineScope: CoroutineScope? = null,
         drawerState: DrawerState? = null,
