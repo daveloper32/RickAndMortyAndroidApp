@@ -112,6 +112,26 @@ class EpisodeRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun searchEpisodesByIdInRealTime(
+        ids: List<Int>
+    ): Flow<List<EpisodeData>> {
+        return try {
+            episodeDao
+                .searchEpisodesByIds(
+                    id = ids.toIntArray()
+                )
+                .mapNotNull { episodes ->
+                    episodes.mapNotNull { episode ->
+                        episode.toEpisodeData()
+                    }
+                }
+        } catch (e: Exception) {
+            throw EpisodeRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
     override fun getEpisodeSeasonsInRealTime(): Flow<List<Int>> {
         return try {
             episodeDao

@@ -33,6 +33,16 @@ interface EpisodeDao {
         amount: Int
     ): Flow<List<EpisodeEntity>>
 
+    /**Search and get all the [EpisodeEntity] that matches with the input ids from the
+     * [RickAndMortyDatabase] on real time.
+     *
+     * @param id (vararg [Int] type)
+     * @return [Flow]<[List]<[EpisodeEntity]>>*/
+    @Query("SELECT * FROM episodeEntity WHERE id IN (:id)")
+    fun searchEpisodesByIds(
+        vararg id: Int
+    ): Flow<List<EpisodeEntity>>
+
     /**Search and get a [EpisodeEntity] that matches with the input id from the
      * [RickAndMortyDatabase].
      *

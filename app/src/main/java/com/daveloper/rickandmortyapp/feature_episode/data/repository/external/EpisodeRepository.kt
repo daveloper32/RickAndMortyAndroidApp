@@ -40,6 +40,16 @@ interface EpisodeRepository {
         ids: List<Int> = emptyList()
     ): RepositoryResult<List<EpisodeData>>
 
+    /** Function that search and gets a list of episodes by ids on real time from Local
+     *
+     * @param ids ([List]<[Int]>] type). By default it have an emptyList() value. If the ids list is
+     * empty returns all the [EpisodeData] found on local.
+     * @return [Flow]<[List]<[EpisodeData]>>
+     * @throws [EpisodeRepositoryException]*/
+    fun searchEpisodesByIdInRealTime(
+        ids: List<Int> = emptyList()
+    ): Flow<List<EpisodeData>>
+
     /** Function that gets all the Episode Seasons on real time from local.
      *
      * @return [Flow]<[List]<[Int]>>

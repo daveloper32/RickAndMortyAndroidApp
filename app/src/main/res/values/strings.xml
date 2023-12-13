@@ -23,4 +23,9 @@
     <string name="lab_locations">Locations</string>
     <string name="lab_app_version">v. %s</string>
     <string name="lab_see_more">See more</string>
+    <string name="lab_character_details">Character Details</string>
+    <string name="lab_episode_details">Episode Details</string>
+    <string name="lab_location_details">Location Details</string>
+    <string name="lab_current_location">Current location</string>
+    <string name="lab_origin">Origin</string>
 </resources>
