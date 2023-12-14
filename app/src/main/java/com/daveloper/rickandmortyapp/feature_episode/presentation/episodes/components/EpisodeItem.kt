@@ -36,13 +36,16 @@ import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
 fun EpisodeItem(
     episode: Episode,
     modifier: Modifier = Modifier,
+    onClick: ((Episode) -> Unit)? = null
 ) {
     Card(
         modifier = modifier
             .padding(
                 8.dp
             ),
-        onClick = { /*TODO*/ }
+        onClick = {
+            onClick?.invoke(episode)
+        }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

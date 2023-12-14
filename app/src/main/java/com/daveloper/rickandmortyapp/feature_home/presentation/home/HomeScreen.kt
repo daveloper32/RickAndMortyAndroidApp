@@ -200,7 +200,13 @@ fun HomeScreen(
                                         .width(200.dp)
                                         .height(268.dp),
                                     episode = state.episodes[it],
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.EpisodeDetailsScreen.createRoute(
+                                            episodeId = it.id
+                                        )
+                                    )
+                                }
                             }
                             item {
                                 CardWithTextComponent(

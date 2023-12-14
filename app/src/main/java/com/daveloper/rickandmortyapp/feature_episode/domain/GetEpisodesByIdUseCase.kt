@@ -16,7 +16,7 @@ class GetEpisodesByIdUseCase @Inject constructor(
     private val resourceProvider: ResourceProvider,
     private val episodeRepository: EpisodeRepository
 ) {
-    /** The [GetEpisodesByIdUseCase] search and try to find a [Episode] based on a input ids [Int]
+    /** The [GetEpisodeByIdUseCase] search and try to find a [Episode] based on a input ids [Int]
      * on real time.
      *
      * @param ids ([List]<[Int]> type) - episode ids to try to search.

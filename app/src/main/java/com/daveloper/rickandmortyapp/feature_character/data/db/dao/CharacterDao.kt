@@ -33,6 +33,16 @@ interface CharacterDao {
         amount: Int
     ): Flow<List<CharacterEntity>>
 
+    /**Search and get all the [CharacterEntity] that matches with the input ids from the
+     * [RickAndMortyDatabase] on real time.
+     *
+     * @param id (vararg [Int] type)
+     * @return [Flow]<[List]<[CharacterEntity]>>*/
+    @Query("SELECT * FROM characterEntity WHERE id IN (:id)")
+    fun searchCharactersByIds(
+        vararg id: Int
+    ): Flow<List<CharacterEntity>>
+
     /**Search and get a [CharacterEntity] that matches with the input id from the
      * [RickAndMortyDatabase].
      *

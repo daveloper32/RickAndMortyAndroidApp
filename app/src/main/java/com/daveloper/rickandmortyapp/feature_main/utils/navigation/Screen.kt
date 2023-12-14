@@ -16,4 +16,12 @@ sealed class Screen(
             characterId: Int
         ) = "${Screen.CharacterDetailsScreen.route}?$CHARACTER_ID_PARAM=$characterId"
     }
+    object EpisodeDetailsScreen: Screen("episode_details_screen") {
+        const val EPISODE_ID_PARAM = "episode_id"
+        const val DEFAULT_EPISODE_ID_PARAM_VALUE = -1
+        fun getRouteWithParams(): String = "${Screen.EpisodeDetailsScreen.route}?$EPISODE_ID_PARAM={$EPISODE_ID_PARAM}"
+        fun createRoute(
+            episodeId: Int
+        ) = "${Screen.EpisodeDetailsScreen.route}?$EPISODE_ID_PARAM=$episodeId"
+    }
 }

@@ -28,6 +28,7 @@ import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.onNav
 import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.openNavigationDrawer
 import com.daveloper.rickandmortyapp.feature_character.presentation.character_details.components.CharacterDetailsScreen
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharactersScreen
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.components.EpisodeDetailsScreen
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodesScreen
 import com.daveloper.rickandmortyapp.feature_home.presentation.home.HomeScreen
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationsScreen
@@ -154,6 +155,7 @@ fun MainNavigationCmp(
                         MainNavigationEvent.Navigation(Screen.EpisodesScreen)
                     )
                     EpisodesScreen(
+                        navController = navController,
                         onUpdateScrollPosition = { newPosition ->
                             viewModel.onEvent(
                                 MainNavigationEvent.ScrollPosition(newPosition)
@@ -195,6 +197,28 @@ fun MainNavigationCmp(
                     CharacterDetailsScreen(
                         navController = navController,
                         characterId = characterId ?: Screen.CharacterDetailsScreen.DEFAULT_CHARACTER_ID_PARAM_VALUE
+                    )
+                }
+                composable(
+                    route = Screen.EpisodeDetailsScreen.getRouteWithParams(),
+                    arguments = listOf(
+                        navArgument(Screen.EpisodeDetailsScreen.EPISODE_ID_PARAM) {
+                            type = NavType.IntType
+                            defaultValue = Screen.EpisodeDetailsScreen.DEFAULT_EPISODE_ID_PARAM_VALUE
+                        }
+                    )
+                ) { navBackStackEntry : NavBackStackEntry ->
+                    val episodeId: Int? = navBackStackEntry
+                        .arguments
+                        ?.getInt(
+                            Screen.EpisodeDetailsScreen.EPISODE_ID_PARAM
+                        )
+                    viewModel.onEvent(
+                        MainNavigationEvent.Navigation(Screen.EpisodeDetailsScreen)
+                    )
+                    EpisodeDetailsScreen(
+                        navController = navController,
+                        episodeId = episodeId ?: Screen.EpisodeDetailsScreen.DEFAULT_EPISODE_ID_PARAM_VALUE
                     )
                 }
             }

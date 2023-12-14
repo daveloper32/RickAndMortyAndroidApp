@@ -40,6 +40,16 @@ interface CharacterRepository {
         ids: List<Int> = emptyList()
     ): RepositoryResult<List<CharacterData>>
 
+    /** Function that search and gets a list of characters by ids on real time from Local
+     *
+     * @param ids ([List]<[Int]>] type). By default it have an emptyList() value. If the ids list is
+     * empty returns all the [CharacterData] found on local.
+     * @return [Flow]<[List]<[CharacterData]>>
+     * @throws [CharacterRepositoryException]*/
+    fun searchEpisodesByIdInRealTime(
+        ids: List<Int> = emptyList()
+    ): Flow<List<CharacterData>>
+
     /** Function that gets all the Character Life Status on real time from local.
      *
      * @return [Flow]<[List]<[String]>>

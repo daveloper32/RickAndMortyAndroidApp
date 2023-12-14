@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_character.presentation.character_details.components
+package com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,16 +37,17 @@ import com.bumptech.glide.integration.compose.placeholder
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.text.TextWithHeader
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
-import com.daveloper.rickandmortyapp.feature_character.presentation.character_details.CharacterDetailsViewModel
-import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeHorizontalItem
+import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterHorizontalItem
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.EpisodeDetailsViewModel
 import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
+
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterDetailsScreen(
+fun EpisodeDetailsScreen(
     navController: NavController,
-    characterId: Int,
-    viewModel: CharacterDetailsViewModel = hiltViewModel(),
+    episodeId: Int,
+    viewModel: EpisodeDetailsViewModel = hiltViewModel(),
 ) {
     BackPressHandler {
         navController.popBackStack()
@@ -57,7 +58,7 @@ fun CharacterDetailsScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CharacterDetailsAppBar(
+        EpisodeDetailsAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -75,13 +76,13 @@ fun CharacterDetailsScreen(
                         .fillMaxWidth()
                         .height(300.dp),
                     contentScale = ContentScale.Crop,
-                    model = state.character.imageUrl,
-                    contentDescription = state.character.name,
+                    model = R.drawable.ic_episode_frame,
+                    contentDescription = "Episode frame",
                     loading = placeholder(
-                        R.drawable.ic_not_character_found
+                        R.drawable.ic_episode_frame
                     ),
                     failure = placeholder(
-                        R.drawable.ic_not_character_found
+                        R.drawable.ic_episode_frame
                     ),
                 )
                 Spacer(modifier = Modifier.size(4.dp))
@@ -98,8 +99,8 @@ fun CharacterDetailsScreen(
                             .padding(
                                 vertical = 4.dp
                             ),
-                        text = state.character.name,
-                        textAlign = TextAlign.Center,
+                        text = state.episode.name,
+                        textAlign = TextAlign.Start,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 28.sp
                     )
@@ -109,53 +110,29 @@ fun CharacterDetailsScreen(
                             .padding(
                                 bottom = 8.dp
                             ),
-                        header = stringResource(id = R.string.lab_life_status),
-                        value = state.character.lifeStatus
+                        header = stringResource(id = R.string.lab_season),
+                        value = state.episode.seasonNumber.toString()
                     )
                     TextWithHeader(
                         modifier = Modifier
                             .padding(
                                 bottom = 8.dp
                             ),
-                        header = stringResource(id = R.string.lab_gender),
-                        value = state.character.gender
+                        header = stringResource(id = R.string.lab_episode),
+                        value = state.episode.episodeNumber.toString()
                     )
                     TextWithHeader(
                         modifier = Modifier
                             .padding(
                                 bottom = 8.dp
                             ),
-                        header = stringResource(id = R.string.lab_current_location),
-                        value = state.character.currentLocation
-                    )
-                    TextWithHeader(
-                        modifier = Modifier
-                            .padding(
-                                bottom = 8.dp
-                            ),
-                        header = stringResource(id = R.string.lab_origin),
-                        value = state.character.origin,
-                    )
-                    TextWithHeader(
-                        modifier = Modifier
-                            .padding(
-                                bottom = 8.dp
-                            ),
-                        header = stringResource(id = R.string.lab_species),
-                        value =  state.character.species
-                    )
-                    TextWithHeader(
-                        modifier = Modifier
-                            .padding(
-                                bottom = 8.dp
-                            ),
-                        header = stringResource(id = R.string.lab_type),
-                        value =  state.character.type
+                        header = stringResource(id = R.string.lab_air_date),
+                        value = state.episode.airDate
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    if (state.episodes.isNotEmpty()) {
+                    if (state.characters.isNotEmpty()) {
                         Text(
-                            text = stringResource(id = R.string.lab_episodes),
+                            text = stringResource(id = R.string.lab_characters),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 18.sp,
                             maxLines = 1,
@@ -166,21 +143,21 @@ fun CharacterDetailsScreen(
                 }
             }
             items(
-                count = state.episodes.size,
+                count = state.characters.size,
                 key = {
-                    state.episodes[it].id
+                    state.characters[it].id
                 },
             ) {
-                EpisodeHorizontalItem(
+                CharacterHorizontalItem(
                     modifier = Modifier
                         .padding(
                             horizontal = 8.dp
                         ),
-                    episode = state.episodes[it]
+                    character = state.characters[it]
                 ) {
                     navController.navigate(
-                        Screen.EpisodeDetailsScreen.createRoute(
-                            episodeId = it.id
+                        Screen.CharacterDetailsScreen.createRoute(
+                            characterId = it.id
                         )
                     )
                 }
@@ -191,7 +168,7 @@ fun CharacterDetailsScreen(
 }
 
 @Composable
-private fun CharacterDetailsAppBar(
+private fun EpisodeDetailsAppBar(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
@@ -221,7 +198,7 @@ private fun CharacterDetailsAppBar(
             }
             Spacer(modifier = Modifier.size(4.dp))
             Text(
-                text = stringResource(id = R.string.lab_character_details),
+                text = stringResource(id = R.string.lab_episode_details),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
                 maxLines = 1,

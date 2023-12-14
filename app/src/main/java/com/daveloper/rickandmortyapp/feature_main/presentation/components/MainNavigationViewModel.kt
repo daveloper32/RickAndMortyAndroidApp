@@ -37,7 +37,8 @@ class MainNavigationViewModel @Inject constructor(
                 is MainNavigationEvent.Navigation -> {
                     _state.value = _state.value.copy(
                         isBottomNavigationBarVisible = when (event.screen) {
-                            Screen.CharacterDetailsScreen -> false
+                            Screen.CharacterDetailsScreen,
+                            Screen.EpisodeDetailsScreen -> false
                             else -> true
                         }
                     )

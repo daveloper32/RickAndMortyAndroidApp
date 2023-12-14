@@ -113,6 +113,26 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun searchEpisodesByIdInRealTime(
+        ids: List<Int>
+    ): Flow<List<CharacterData>> {
+        return try {
+            characterDao
+                .searchCharactersByIds(
+                    id = ids.toIntArray()
+                )
+                .mapNotNull { characters ->
+                    characters.mapNotNull { character ->
+                        character.toCharacterData()
+                    }
+                }
+        } catch (e: Exception) {
+            throw CharacterRepositoryException.Unknown(
+                e.message ?: resourceProvider.getStringResource(R.string.lab_unknown_error)
+            )
+        }
+    }
+
     override fun getCharacterLifeStatusInRealTime(): Flow<List<String>> {
         return try {
             characterDao

@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilityFloatingActionButton
 import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
@@ -44,6 +45,7 @@ import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_episode.domain.enums.EpisodeFilterType
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesEvent
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesViewModel
+import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
@@ -51,7 +53,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EpisodesScreen(
-    //navController: NavController,
+    navController: NavController,
     viewModel: EpisodesViewModel = hiltViewModel(),
     onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null
 ) {
@@ -226,7 +228,13 @@ fun EpisodesScreen(
                             ) {
                                 EpisodeItem(
                                     episode = state.episodes[it]
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.EpisodeDetailsScreen.createRoute(
+                                            episodeId = it.id
+                                        )
+                                    )
+                                }
                             }
                         }
                     } else {
