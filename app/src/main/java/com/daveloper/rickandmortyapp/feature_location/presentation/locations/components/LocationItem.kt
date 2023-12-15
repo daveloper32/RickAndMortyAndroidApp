@@ -3,7 +3,6 @@ package com.daveloper.rickandmortyapp.feature_location.presentation.locations.co
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,13 +33,16 @@ import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
 fun LocationItem(
     location: Location,
     modifier: Modifier = Modifier,
+    onClick: ((Location) -> Unit)? = null
 ) {
     Card(
         modifier = modifier
             .padding(
                 8.dp
             ),
-        onClick = { /*TODO*/ }
+        onClick = {
+            onClick?.invoke(location)
+        }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

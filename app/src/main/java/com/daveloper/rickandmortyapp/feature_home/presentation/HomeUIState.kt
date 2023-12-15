@@ -1,6 +1,6 @@
 package com.daveloper.rickandmortyapp.feature_home.presentation
 
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 
 sealed interface HomeUIState {
     data class NavigateTo(

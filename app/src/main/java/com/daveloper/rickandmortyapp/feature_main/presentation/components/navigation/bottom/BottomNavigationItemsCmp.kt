@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.models.BottomNavigationItem
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 
 @Composable
 fun BottomNavigationItems() : List<BottomNavigationItem> {

@@ -1,4 +1,4 @@
-package com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.components
+package com.daveloper.rickandmortyapp.feature_location.presentation.location_details.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,14 +39,14 @@ import com.daveloper.rickandmortyapp.core.ui.components.custom.text.TextWithHead
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
 import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterHorizontalItem
-import com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.EpisodeDetailsViewModel
+import com.daveloper.rickandmortyapp.feature_location.presentation.location_details.LocationDetailsViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun EpisodeDetailsScreen(
+fun LocationDetailsScreen(
     navController: NavController,
-    episodeId: Int,
-    viewModel: EpisodeDetailsViewModel = hiltViewModel(),
+    locationId: Int,
+    viewModel: LocationDetailsViewModel = hiltViewModel(),
 ) {
     BackPressHandler {
         navController.popBackStack()
@@ -57,7 +57,7 @@ fun EpisodeDetailsScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EpisodeDetailsAppBar(
+        LocationDetailsAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -75,13 +75,13 @@ fun EpisodeDetailsScreen(
                         .fillMaxWidth()
                         .height(300.dp),
                     contentScale = ContentScale.Crop,
-                    model = R.drawable.ic_episode_frame,
-                    contentDescription = "Episode frame",
+                    model = R.drawable.ic_place_frame,
+                    contentDescription = state.location.name,
                     loading = placeholder(
-                        R.drawable.ic_episode_frame
+                        R.drawable.ic_place_frame
                     ),
                     failure = placeholder(
-                        R.drawable.ic_episode_frame
+                        R.drawable.ic_place_frame
                     ),
                 )
                 Spacer(modifier = Modifier.size(4.dp))
@@ -98,7 +98,7 @@ fun EpisodeDetailsScreen(
                             .padding(
                                 vertical = 4.dp
                             ),
-                        text = state.episode.name,
+                        text = state.location.name,
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 28.sp
@@ -109,29 +109,21 @@ fun EpisodeDetailsScreen(
                             .padding(
                                 bottom = 8.dp
                             ),
-                        header = stringResource(id = R.string.lab_season),
-                        value = state.episode.seasonNumber.toString()
+                        header = stringResource(id = R.string.lab_type),
+                        value = state.location.type.toString()
                     )
                     TextWithHeader(
                         modifier = Modifier
                             .padding(
                                 bottom = 8.dp
                             ),
-                        header = stringResource(id = R.string.lab_episode),
-                        value = state.episode.episodeNumber.toString()
-                    )
-                    TextWithHeader(
-                        modifier = Modifier
-                            .padding(
-                                bottom = 8.dp
-                            ),
-                        header = stringResource(id = R.string.lab_air_date),
-                        value = state.episode.airDate
+                        header = stringResource(id = R.string.lab_dimension),
+                        value = state.location.dimension.toString()
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     if (state.characters.isNotEmpty()) {
                         Text(
-                            text = stringResource(id = R.string.lab_characters),
+                            text = stringResource(id = R.string.lab_residents),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 18.sp,
                             maxLines = 1,
@@ -167,7 +159,7 @@ fun EpisodeDetailsScreen(
 }
 
 @Composable
-private fun EpisodeDetailsAppBar(
+private fun LocationDetailsAppBar(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
@@ -197,7 +189,7 @@ private fun EpisodeDetailsAppBar(
             }
             Spacer(modifier = Modifier.size(4.dp))
             Text(
-                text = stringResource(id = R.string.lab_episode_details),
+                text = stringResource(id = R.string.lab_location_details),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
                 maxLines = 1,

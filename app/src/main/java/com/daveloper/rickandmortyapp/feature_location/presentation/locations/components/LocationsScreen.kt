@@ -34,12 +34,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilityFloatingActionButton
 import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_location.domain.enums.LocationFilterType
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.LocationsEvent
@@ -51,7 +53,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LocationsScreen(
-    //navController: NavController,
+    navController: NavController,
     viewModel: LocationsViewModel = hiltViewModel(),
     onUpdateScrollPosition: ((newPosition: Int) -> Unit)? = null
 ) {
@@ -243,7 +245,13 @@ fun LocationsScreen(
                             ) {
                                 LocationItem(
                                     location = state.locations[it]
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.LocationDetailsScreen.createRoute(
+                                            locationId = it.id
+                                        )
+                                    )
+                                }
                             }
                         }
                     } else {

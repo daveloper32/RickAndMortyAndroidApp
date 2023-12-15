@@ -23,6 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.closeNavigationDrawer
 import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.onNavigationItemClicked
 import com.daveloper.rickandmortyapp.core.utils.navigation.NavigationUtils.openNavigationDrawer
@@ -31,10 +32,10 @@ import com.daveloper.rickandmortyapp.feature_character.presentation.characters.c
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episode_details.components.EpisodeDetailsScreen
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodesScreen
 import com.daveloper.rickandmortyapp.feature_home.presentation.home.HomeScreen
+import com.daveloper.rickandmortyapp.feature_location.presentation.location_details.components.LocationDetailsScreen
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationsScreen
 import com.daveloper.rickandmortyapp.feature_main.presentation.components.navigation.bottom.MainBottomNavigation
 import com.daveloper.rickandmortyapp.feature_main.presentation.components.navigation.drawer.MainNavigationDrawer
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 
 fun Context.findActivity(): ComponentActivity? = when (this) {
     is ComponentActivity -> this
@@ -170,6 +171,7 @@ fun MainNavigationCmp(
                         MainNavigationEvent.Navigation(Screen.LocationsScreen)
                     )
                     LocationsScreen(
+                        navController = navController,
                         onUpdateScrollPosition = { newPosition ->
                             viewModel.onEvent(
                                 MainNavigationEvent.ScrollPosition(newPosition)
@@ -219,6 +221,28 @@ fun MainNavigationCmp(
                     EpisodeDetailsScreen(
                         navController = navController,
                         episodeId = episodeId ?: Screen.EpisodeDetailsScreen.DEFAULT_EPISODE_ID_PARAM_VALUE
+                    )
+                }
+                composable(
+                    route = Screen.LocationDetailsScreen.getRouteWithParams(),
+                    arguments = listOf(
+                        navArgument(Screen.LocationDetailsScreen.LOCATION_ID_PARAM) {
+                            type = NavType.IntType
+                            defaultValue = Screen.LocationDetailsScreen.DEFAULT_LOCATION_ID_PARAM_VALUE
+                        }
+                    )
+                ) { navBackStackEntry : NavBackStackEntry ->
+                    val locationId: Int? = navBackStackEntry
+                        .arguments
+                        ?.getInt(
+                            Screen.LocationDetailsScreen.LOCATION_ID_PARAM
+                        )
+                    viewModel.onEvent(
+                        MainNavigationEvent.Navigation(Screen.LocationDetailsScreen)
+                    )
+                    LocationDetailsScreen(
+                        navController = navController,
+                        locationId = locationId ?: Screen.LocationDetailsScreen.DEFAULT_LOCATION_ID_PARAM_VALUE
                     )
                 }
             }

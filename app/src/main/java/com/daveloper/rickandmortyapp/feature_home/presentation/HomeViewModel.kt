@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daveloper.rickandmortyapp.core.base.result.UseCaseResult
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
 import com.daveloper.rickandmortyapp.feature_character.domain.GetCharactersUseCase
 import com.daveloper.rickandmortyapp.feature_character.domain.UpdateCharactersUseCase
@@ -16,7 +17,6 @@ import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
 import com.daveloper.rickandmortyapp.feature_home.domain.enums.AppDataType
 import com.daveloper.rickandmortyapp.feature_location.domain.GetLocationsUseCase
 import com.daveloper.rickandmortyapp.feature_location.domain.UpdateLocationsUseCase
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn

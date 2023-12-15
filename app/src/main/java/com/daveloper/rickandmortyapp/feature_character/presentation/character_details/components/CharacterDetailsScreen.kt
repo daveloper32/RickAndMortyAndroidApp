@@ -37,9 +37,9 @@ import com.bumptech.glide.integration.compose.placeholder
 import com.daveloper.rickandmortyapp.R
 import com.daveloper.rickandmortyapp.core.ui.components.custom.text.TextWithHeader
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.feature_character.presentation.character_details.CharacterDetailsViewModel
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeHorizontalItem
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable

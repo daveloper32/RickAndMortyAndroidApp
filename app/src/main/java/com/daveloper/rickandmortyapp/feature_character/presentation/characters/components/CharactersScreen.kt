@@ -31,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,14 +41,12 @@ import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
-import com.daveloper.rickandmortyapp.core.ui.components.handlers.BackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon.arrowUpward
 import com.daveloper.rickandmortyapp.feature_character.domain.enums.CharacterFilterType
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersEvent
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.CharactersViewModel
-import com.daveloper.rickandmortyapp.feature_main.presentation.components.findActivity
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch

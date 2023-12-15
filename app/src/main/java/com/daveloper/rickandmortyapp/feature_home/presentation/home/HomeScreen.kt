@@ -46,6 +46,7 @@ import com.daveloper.rickandmortyapp.core.ui.components.custom.AnimatedVisibilit
 import com.daveloper.rickandmortyapp.core.ui.components.custom.CardWithTextComponent
 import com.daveloper.rickandmortyapp.core.ui.components.custom.SubHeaderComponent
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterItem
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeItem
@@ -54,7 +55,6 @@ import com.daveloper.rickandmortyapp.feature_home.presentation.HomeEvent
 import com.daveloper.rickandmortyapp.feature_home.presentation.HomeUIState
 import com.daveloper.rickandmortyapp.feature_home.presentation.HomeViewModel
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationItem
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
@@ -255,7 +255,13 @@ fun HomeScreen(
                                         .width(200.dp)
                                         .height(264.dp),
                                     location = state.locations[it],
-                                )
+                                ) {
+                                    navController.navigate(
+                                        Screen.LocationDetailsScreen.createRoute(
+                                            locationId = it.id
+                                        )
+                                    )
+                                }
                             }
                             item {
                                 CardWithTextComponent(

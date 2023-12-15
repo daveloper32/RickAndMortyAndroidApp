@@ -41,11 +41,11 @@ import com.daveloper.rickandmortyapp.core.ui.components.custom.Chip
 import com.daveloper.rickandmortyapp.core.ui.components.custom.FilterSelector
 import com.daveloper.rickandmortyapp.core.ui.components.custom.NotFoundDataCmp
 import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackPressHandler
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_episode.domain.enums.EpisodeFilterType
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesEvent
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesViewModel
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch

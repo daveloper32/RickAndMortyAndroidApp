@@ -7,14 +7,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daveloper.rickandmortyapp.core.base.result.UseCaseResult
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 import com.daveloper.rickandmortyapp.core.utils.providers.ResourceProvider
 import com.daveloper.rickandmortyapp.feature_character.domain.GetCharacterByIdUseCase
 import com.daveloper.rickandmortyapp.feature_episode.domain.GetEpisodesByIdUseCase
-import com.daveloper.rickandmortyapp.feature_episode.domain.GetEpisodesUseCase
 import com.daveloper.rickandmortyapp.feature_episode.domain.model.Episode
-import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.EpisodesViewModel
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow

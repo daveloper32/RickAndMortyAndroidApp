@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.daveloper.rickandmortyapp.feature_main.utils.navigation.Screen
+import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -38,7 +38,8 @@ class MainNavigationViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         isBottomNavigationBarVisible = when (event.screen) {
                             Screen.CharacterDetailsScreen,
-                            Screen.EpisodeDetailsScreen -> false
+                            Screen.EpisodeDetailsScreen,
+                            Screen.LocationDetailsScreen-> false
                             else -> true
                         }
                     )
