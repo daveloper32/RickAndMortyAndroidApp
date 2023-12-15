@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lab_not_found_data_error">Nenhum dado encontrado</string>
+    <string name="lab_not_results_found_error">Nenhum resultado encontrado</string>
+    <string name="lab_please_try_another_search">Por favor, tente outra busca</string>
+    <string name="lab_not_internet_connection">Você precisa de internet para realizar esta ação</string>
+    <string name="lab_unknown_error">Erro desconhecido</string>
+    <string name="lab_all">Todos</string>
+    <string name="lab_search">Buscar</string>
+    <string name="lab_life_status">Status de vida</string>
+    <string name="lab_species">Espécie</string>
+    <string name="lab_gender">Gênero</string>
+    <string name="lab_season">Temporada</string>
+    <string name="lab_episode">Episódio</string>
+    <string name="lab_season_number">Temporada # %d</string>
+    <string name="lab_episode_number">Episódio # %d</string>
+    <string name="lab_season_and_episode_stamp">T%d.E%d</string>
+    <string name="lab_type">Tipo</string>
+    <string name="lab_dimension">Dimensão</string>
+    <string name="lab_unknown">Desconhecido</string>
+    <string name="lab_home">Início</string>
+    <string name="lab_characters">Personagens</string>
+    <string name="lab_episodes">Episódios</string>
+    <string name="lab_locations">Localizações</string>
+    <string name="lab_app_version">v. %s</string>
+    <string name="lab_see_more">Ver mais</string>
+    <string name="lab_character_details">Detalhes do personagem</string>
+    <string name="lab_episode_details">Detalhes do episódio</string>
+    <string name="lab_location_details">Detalhes da localização</string>
+    <string name="lab_current_location">Localização atual</string>
+    <string name="lab_origin">Origem</string>
+    <string name="lab_air_date">Data de transmissão</string>
+    <string name="lab_residents">Residentes</string>
+    <string name="lab_about">Sobre</string>
+</resources>

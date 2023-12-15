@@ -39,7 +39,7 @@ android {
 
     buildTypes {
         release {
-            isDebuggable = true
+            isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
             resValue("string", "provider_url", localProperties.getProperty("DEVELOPMENT_PROVIDER_URL"))

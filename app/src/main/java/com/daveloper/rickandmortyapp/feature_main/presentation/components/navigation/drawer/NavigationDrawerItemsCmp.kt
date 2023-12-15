@@ -2,6 +2,7 @@ package com.daveloper.rickandmortyapp.feature_main.presentation.components.navig
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
@@ -34,5 +35,10 @@ fun NavigationDrawerItems(): List<NavigationDrawerItem> {
             icon = Icons.Filled.LocationOn,
             route = Screen.LocationsScreen.route
         ),
+       /* NavigationDrawerItem(
+            label = stringResource(id = R.string.lab_about),
+            icon = Icons.Filled.Info,
+            route = Screen.LocationsScreen.route
+        ),*/
     )
 }

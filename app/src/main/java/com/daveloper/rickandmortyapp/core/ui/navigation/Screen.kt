@@ -8,6 +8,7 @@ sealed class Screen(
     object CharactersScreen: Screen("characters_screen", 1)
     object EpisodesScreen: Screen("episodes_screen", 2)
     object LocationsScreen: Screen("locations_screen", 3)
+    object AboutScreen: Screen("about_screen")
     object CharacterDetailsScreen: Screen("character_details_screen") {
         const val CHARACTER_ID_PARAM = "character_id"
         const val DEFAULT_CHARACTER_ID_PARAM_VALUE = -1
