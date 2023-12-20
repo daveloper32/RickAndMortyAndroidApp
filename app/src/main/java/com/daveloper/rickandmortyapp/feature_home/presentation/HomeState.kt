@@ -9,6 +9,9 @@ import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
  * @param characters ([List]<[Character]> type)
  * @param characters ([List]<[Episode]> type)
  * @param characters ([List]<[Location]> type)
+ * @param isLoadingCharacterData ([Boolean] type)
+ * @param isLoadingEpisodeData ([Boolean] type)
+ * @param isLoadingLocationData ([Boolean] type)
  * @param isNotFoundCharacterDataVisible ([Boolean] type)
  * @param isNotFoundEpisodeDataVisible ([Boolean] type)
  * @param isNotFoundLocationDataVisible ([Boolean] type)
@@ -20,6 +23,9 @@ data class HomeState (
     val characters: List<Character> = emptyList(),
     val episodes: List<Episode> = emptyList(),
     val locations: List<Location> = emptyList(),
+    val isLoadingCharacterData: Boolean = false,
+    val isLoadingEpisodeData: Boolean = false,
+    val isLoadingLocationData: Boolean = false,
     val isNotFoundCharacterDataVisible: Boolean = false,
     val isNotFoundEpisodeDataVisible: Boolean = false,
     val isNotFoundLocationDataVisible: Boolean = false,

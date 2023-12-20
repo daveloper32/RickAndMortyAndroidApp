@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor(
         try {
             Log.i(TAG, "getCharacters() called")
             _state.value = state.value.copy(
-                isNotFoundCharacterDataVisible = true
+                isLoadingCharacterData = true
             )
             getCharactersJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getCharactersJob = getCharactersUseCase
@@ -113,7 +113,8 @@ class HomeViewModel @Inject constructor(
                     Log.i(TAG, "getCharacters() answer")
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
-                        characters = characters,
+                        characters                     = characters,
+                        isLoadingCharacterData         = false,
                         isNotFoundCharacterDataVisible = characters.isEmpty()
                     )
                 }.launchIn(viewModelScope)
@@ -128,6 +129,9 @@ class HomeViewModel @Inject constructor(
     private fun getEpisodes(
     ) {
         try {
+            _state.value = state.value.copy(
+                isLoadingEpisodeData = true
+            )
             getEpisodesJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getEpisodesJob = getEpisodesUseCase
                 .invoke(
@@ -136,7 +140,8 @@ class HomeViewModel @Inject constructor(
                 .onEach { episodes ->
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
-                        episodes = episodes,
+                        episodes                     = episodes,
+                        isLoadingEpisodeData         = false,
                         isNotFoundEpisodeDataVisible = episodes.isEmpty()
                     )
                 }.launchIn(viewModelScope)
@@ -152,7 +157,7 @@ class HomeViewModel @Inject constructor(
     ) {
         try {
             _state.value = state.value.copy(
-                isNotFoundLocationDataVisible = true
+                isLoadingLocationData = true
             )
             getLocationsJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getLocationsJob = getLocationsUseCase
@@ -163,6 +168,7 @@ class HomeViewModel @Inject constructor(
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
                         locations = locations,
+                        isLoadingLocationData = false,
                         isNotFoundLocationDataVisible = locations.isEmpty()
                     )
                 }.launchIn(viewModelScope)

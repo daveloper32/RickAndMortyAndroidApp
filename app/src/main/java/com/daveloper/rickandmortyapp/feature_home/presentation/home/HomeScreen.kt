@@ -49,12 +49,15 @@ import com.daveloper.rickandmortyapp.core.ui.components.handlers.AutoFinishBackP
 import com.daveloper.rickandmortyapp.core.ui.navigation.Screen
 import com.daveloper.rickandmortyapp.core.ui.vectors.AppIcon
 import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterItem
+import com.daveloper.rickandmortyapp.feature_character.presentation.characters.components.CharacterShimmerItem
 import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeItem
+import com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components.EpisodeShimmerItem
 import com.daveloper.rickandmortyapp.feature_home.domain.enums.AppDataType
 import com.daveloper.rickandmortyapp.feature_home.presentation.HomeEvent
 import com.daveloper.rickandmortyapp.feature_home.presentation.HomeUIState
 import com.daveloper.rickandmortyapp.feature_home.presentation.HomeViewModel
 import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationItem
+import com.daveloper.rickandmortyapp.feature_location.presentation.locations.components.LocationShimmerItem
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
@@ -138,23 +141,35 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             state = rememberLazyListState()
                         ) {
-                            items(
-                                count = state.characters.size,
-                                key = {
-                                    state.characters[it].id
-                                },
-                            ) {
-                                CharacterItem(
-                                    modifier = Modifier
-                                        .width(200.dp)
-                                        .height(268.dp),
-                                    character = state.characters[it],
+                            if (state.isLoadingCharacterData) {
+                                items(
+                                    count = 5
                                 ) {
-                                    navController.navigate(
-                                        Screen.CharacterDetailsScreen.createRoute(
-                                            characterId = it.id
-                                        )
+                                    CharacterShimmerItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(268.dp)
                                     )
+                                }
+                            } else {
+                                items(
+                                    count = state.characters.size,
+                                    key = {
+                                        state.characters[it].id
+                                    },
+                                ) {
+                                    CharacterItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(268.dp),
+                                        character = state.characters[it],
+                                    ) {
+                                        navController.navigate(
+                                            Screen.CharacterDetailsScreen.createRoute(
+                                                characterId = it.id
+                                            )
+                                        )
+                                    }
                                 }
                             }
                             item {
@@ -189,23 +204,35 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth(),
                             state = rememberLazyListState()
                         ) {
-                            items(
-                                count = state.episodes.size,
-                                key = {
-                                    state.episodes[it].id
-                                },
-                            ) {
-                                EpisodeItem(
-                                    modifier = Modifier
-                                        .width(200.dp)
-                                        .height(268.dp),
-                                    episode = state.episodes[it],
+                            if (state.isLoadingEpisodeData) {
+                                items(
+                                    count = 5,
                                 ) {
-                                    navController.navigate(
-                                        Screen.EpisodeDetailsScreen.createRoute(
-                                            episodeId = it.id
-                                        )
+                                    EpisodeShimmerItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(268.dp)
                                     )
+                                }
+                            } else {
+                                items(
+                                    count = state.episodes.size,
+                                    key = {
+                                        state.episodes[it].id
+                                    },
+                                ) {
+                                    EpisodeItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(268.dp),
+                                        episode = state.episodes[it],
+                                    ) {
+                                        navController.navigate(
+                                            Screen.EpisodeDetailsScreen.createRoute(
+                                                episodeId = it.id
+                                            )
+                                        )
+                                    }
                                 }
                             }
                             item {
@@ -244,23 +271,35 @@ fun HomeScreen(
                                 ),
                             state = rememberLazyListState()
                         ) {
-                            items(
-                                count = state.locations.size,
-                                key = {
-                                    state.locations[it].id
-                                },
-                            ) {
-                                LocationItem(
-                                    modifier = Modifier
-                                        .width(200.dp)
-                                        .height(264.dp),
-                                    location = state.locations[it],
+                            if (state.isLoadingLocationData) {
+                                items (
+                                   count = 5
                                 ) {
-                                    navController.navigate(
-                                        Screen.LocationDetailsScreen.createRoute(
-                                            locationId = it.id
-                                        )
+                                    LocationShimmerItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(264.dp),
                                     )
+                                }
+                            } else {
+                                items(
+                                    count = state.locations.size,
+                                    key = {
+                                        state.locations[it].id
+                                    },
+                                ) {
+                                    LocationItem(
+                                        modifier = Modifier
+                                            .width(200.dp)
+                                            .height(264.dp),
+                                        location = state.locations[it],
+                                    ) {
+                                        navController.navigate(
+                                            Screen.LocationDetailsScreen.createRoute(
+                                                locationId = it.id
+                                            )
+                                        )
+                                    }
                                 }
                             }
                             item {
