@@ -15,6 +15,7 @@ import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
  * @param selectedLifeStatus ([String] type)
  * @param selectedSpecies ([String] type)
  * @param selectedGender ([String] type)
+ * @param isLoading ([Boolean] type)
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
  * @param isScrollingUp ([Boolean] type)
@@ -30,6 +31,7 @@ data class CharactersState(
     val selectedLifeStatus: String = EMPTY_STR,
     val selectedSpecies: String = EMPTY_STR,
     val selectedGender: String = EMPTY_STR,
+    val isLoading: Boolean = false,
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
     val isScrollingUp: Boolean = false,

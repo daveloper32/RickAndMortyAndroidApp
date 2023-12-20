@@ -28,23 +28,19 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import com.daveloper.rickandmortyapp.R
-import com.daveloper.rickandmortyapp.feature_character.domain.model.Character
+import com.daveloper.rickandmortyapp.core.ui.components.modifier.shimmerEffect
+import com.daveloper.rickandmortyapp.core.utils.constants.Constants
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CharacterItem(
-    character: Character,
-    modifier: Modifier = Modifier,
-    onClick: ((Character) -> Unit)? = null
+fun CharacterShimmerItem(
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .padding(
                 8.dp
             ),
-        onClick = {
-            onClick?.invoke(character)
-        }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -53,10 +49,11 @@ fun CharacterItem(
                 modifier = Modifier
                     .clip(RoundedCornerShape(1.dp))
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(200.dp)
+                    .shimmerEffect(),
                 contentScale = ContentScale.Crop,
-                model = character.imageUrl,
-                contentDescription = character.name,
+                model = R.drawable.ic_not_character_found,
+                contentDescription = R.drawable.ic_not_character_found.toString(),
                 loading = placeholder(
                     R.drawable.ic_not_character_found
                 ),
@@ -69,8 +66,8 @@ fun CharacterItem(
                     .padding(
                         horizontal = 12.dp,
                         vertical = 4.dp
-                    ),
-                text = character.name,
+                    ).shimmerEffect(),
+                text = "                    ",
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -96,15 +93,18 @@ fun CharacterItem(
                         .size(8.dp)
                         .clip(CircleShape)
                         .background(
-                            when (character.lifeStatus.lowercase()) {
+                            when (Constants.EMPTY_STR) {
                                 "alive" -> Color(0xFF78C34A)
                                 "dead" -> Color(0xFFE24034)
                                 else -> Color(0xFFE9B310)
                             }
                         )
+                        .shimmerEffect()
                 )
                 Text(
-                    text = "${character.lifeStatus} - ${character.species}",
+                    modifier = Modifier
+                        .shimmerEffect(),
+                    text = "                    ",
                     textAlign = TextAlign.Center,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
@@ -249,6 +250,9 @@ fun CharactersScreen(
                             }
                         }
                     }
+                    if (state.isLoading) {
+                        CharactersLoading()
+                    }
                     if (!state.isNotFoundDataVisible) {
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxSize(),
@@ -305,5 +309,24 @@ fun CharactersScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+fun CharactersLoading(
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            //horizontal = 4.dp
+        ),
+        //state = state,
+    ) {
+        items(
+            count = 10,
+        ) {
+            CharacterShimmerItem()
+        }
     }
 }

@@ -44,15 +44,15 @@ class CharactersViewModel @Inject constructor(
     // Character filter selected
     private val characterFilter: CharacterFilter = CharacterFilter(
         lifeStatus = resourceProvider.getStringResource(R.string.lab_all),
-        species = resourceProvider.getStringResource(R.string.lab_all),
-        gender = resourceProvider.getStringResource(R.string.lab_all),
+        species    = resourceProvider.getStringResource(R.string.lab_all),
+        gender     = resourceProvider.getStringResource(R.string.lab_all),
     )
     // View Model connexion state
     private val _state = mutableStateOf(
         CharactersState(
             selectedLifeStatus = characterFilter.lifeStatus,
-            selectedSpecies = characterFilter.species,
-            selectedGender = characterFilter.gender,
+            selectedSpecies    = characterFilter.species,
+            selectedGender     = characterFilter.gender,
         )
     )
     val state: State<CharactersState> = _state
@@ -105,7 +105,7 @@ class CharactersViewModel @Inject constructor(
                 }
                 is CharactersEvent.ActivateFilter -> {
                     _state.value = state.value.copy(
-                        isFilterResumeVisible = !state.value.isFilterResumeVisible,
+                        isFilterResumeVisible   = !state.value.isFilterResumeVisible,
                         isFilterSelectorVisible = !state.value.isFilterSelectorVisible
                     )
                 }
@@ -159,21 +159,22 @@ class CharactersViewModel @Inject constructor(
         try {
             Log.i(TAG, "getCharacters() called")
             _state.value = state.value.copy(
-                isNotFoundDataVisible = true
+                isLoading = true
             )
             getCharactersJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getCharactersJob = getCharactersUseCase
                 .invoke(
                     searchQuery = searchQuery,
-                    lifeStatus = characterFilter.lifeStatus,
-                    species = characterFilter.species,
-                    gender = characterFilter.gender
+                    lifeStatus  = characterFilter.lifeStatus,
+                    species     = characterFilter.species,
+                    gender      = characterFilter.gender
                 )
                 .onEach { characters ->
                     Log.i(TAG, "getCharacters() answer")
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
-                        characters = characters,
+                        characters            = characters,
+                        isLoading             = false,
                         isNotFoundDataVisible = characters.isEmpty()
                     )
                 }.launchIn(viewModelScope)
@@ -197,7 +198,7 @@ class CharactersViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         lifeStatus = lifeStatus.map {
                             ItemDataFilter(
-                                label = it,
+                                label      = it,
                                 isSelected = characterFilter.lifeStatus.lowercase() == it.lowercase()
                             )
                         },
@@ -223,7 +224,7 @@ class CharactersViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         species = species.map {
                             ItemDataFilter(
-                                label = it,
+                                label      = it,
                                 isSelected = characterFilter.species.lowercase() == it.lowercase()
                             )
                         },
@@ -249,7 +250,7 @@ class CharactersViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         genders = genders.map {
                             ItemDataFilter(
-                                label = it,
+                                label      = it,
                                 isSelected = characterFilter.gender.lowercase() == it.lowercase()
                             )
                         },
@@ -316,7 +317,7 @@ class CharactersViewModel @Inject constructor(
                 return
             }
             _state.value = _state.value.copy(
-                isScrollingUp = newPosition > lastScrollPosition,
+                isScrollingUp           = newPosition > lastScrollPosition,
                 isScrollUpButtonVisible = newPosition > 0
             )
             lastScrollPosition = newPosition
@@ -326,7 +327,7 @@ class CharactersViewModel @Inject constructor(
             )  {
                 _state.value = _state.value.copy(
                     isFilterSelectorVisible = false,
-                    isFilterResumeVisible = true
+                    isFilterResumeVisible   = true
                 )
             }
         } catch (e: Exception) {
