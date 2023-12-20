@@ -14,6 +14,7 @@ import com.daveloper.rickandmortyapp.feature_location.domain.model.Location
  * @param dimensions ([List]<[ItemDataFilter]> type)
  * @param selectedType ([String] type)
  * @param selectedDimension ([String] type)
+ * @param isLoading ([Boolean] type)
  * @param isNotFoundDataVisible ([Boolean] type)
  * @param isRefreshing ([Boolean] type)
  * @param isScrollingUp ([Boolean] type)
@@ -27,6 +28,7 @@ data class LocationsState (
     val dimensions: List<ItemDataFilter> = emptyList(),
     val selectedType: String = Constants.EMPTY_STR,
     val selectedDimension: String = Constants.EMPTY_STR,
+    val isLoading: Boolean = false,
     val isNotFoundDataVisible: Boolean = false,
     val isRefreshing: Boolean = false,
     val isScrollingUp: Boolean = false,

@@ -228,6 +228,9 @@ fun LocationsScreen(
                             }
                         }
                     }
+                    if (state.isLoading) {
+                        LocationsLoading()
+                    }
                     if (!state.isNotFoundDataVisible) {
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxSize(),
@@ -283,5 +286,24 @@ fun LocationsScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun LocationsLoading(
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            //horizontal = 4.dp
+        ),
+        //state = state,
+    ) {
+        items(
+            count = 10,
+        ) {
+            LocationShimmerItem()
+        }
     }
 }

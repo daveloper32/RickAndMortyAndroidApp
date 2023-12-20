@@ -143,19 +143,20 @@ class LocationsViewModel @Inject constructor(
     ) {
         try {
             _state.value = state.value.copy(
-                isNotFoundDataVisible = true
+                isLoading = true
             )
             getLocationsJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getLocationsJob = getLocationsUseCase
                 .invoke(
                     searchQuery = searchQuery,
-                    type = locationFilter.type,
-                    dimension = locationFilter.dimension
+                    type        = locationFilter.type,
+                    dimension  = locationFilter.dimension
                 )
                 .onEach { locations ->
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
-                        locations = locations,
+                        locations             = locations,
+                        isLoading             = false,
                         isNotFoundDataVisible = locations.isEmpty()
                     )
                 }.launchIn(viewModelScope)

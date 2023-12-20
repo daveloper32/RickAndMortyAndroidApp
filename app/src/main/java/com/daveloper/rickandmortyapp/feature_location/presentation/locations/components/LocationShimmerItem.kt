@@ -1,9 +1,7 @@
-package com.daveloper.rickandmortyapp.feature_episode.presentation.episodes.components
+package com.daveloper.rickandmortyapp.feature_location.presentation.locations.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +29,7 @@ import com.daveloper.rickandmortyapp.core.ui.components.modifier.shimmerEffect
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun EpisodeShimmerItem(
+fun LocationShimmerItem(
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -54,75 +51,72 @@ fun EpisodeShimmerItem(
                     modifier = Modifier
                         .clip(RoundedCornerShape(1.dp))
                         .fillMaxWidth()
-                        .height(218.dp)
+                        .height(248.dp)
                         .shimmerEffect(),
                     contentScale = ContentScale.Crop,
-                    model = R.drawable.ic_episode_frame,
-                    contentDescription = "Episode frame",
+                    model = R.drawable.ic_place_frame,
+                    contentDescription = R.drawable.ic_place_frame.toString(),
                     loading = placeholder(
-                        R.drawable.ic_episode_frame
+                        R.drawable.ic_place_frame
                     ),
                     failure = placeholder(
-                        R.drawable.ic_episode_frame
+                        R.drawable.ic_place_frame
                     ),
                 )
+                Card(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(12.dp),
+                    shape = RoundedCornerShape(10)
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(
+                                horizontal = 4.dp
+                            ).shimmerEffect(true),
+                        text = "                    ",
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
                 Column(
                     modifier = Modifier
-                        .align(Alignment.Center)
+                        .align(Alignment.BottomStart)
                         .padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
                 ) {
                     Card(
-                        shape = RectangleShape
+                        shape = RoundedCornerShape(12)
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(
                                     horizontal = 4.dp
                                 ).shimmerEffect(true),
-                            text = "       ",
+                            text = "               ",
                             textAlign = TextAlign.Center,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
+                            fontSize = 14.sp
                         )
                     }
-                    Spacer(modifier = Modifier.size(8.dp))
+                    Spacer(modifier = Modifier.size(4.dp))
                     Card(
-                        shape = RectangleShape
+                        shape = RoundedCornerShape(12)
                     ) {
                         Text(
                             modifier = Modifier
                                 .padding(
                                     horizontal = 4.dp
                                 ).shimmerEffect(true),
-                            text = "                         ",
+                            text = "          ",
                             textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            fontSize = 10.sp
                         )
                     }
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 12.dp,
-                        vertical = 8.dp
-                    ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .shimmerEffect(),
-                    text = "                    ",
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
-                )
             }
         }
     }
