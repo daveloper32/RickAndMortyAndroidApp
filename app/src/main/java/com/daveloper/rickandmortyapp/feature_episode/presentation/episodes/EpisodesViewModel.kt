@@ -129,16 +129,20 @@ class EpisodesViewModel @Inject constructor(
         searchQuery: String = EMPTY_STR
     ) {
         try {
+            _state.value = state.value.copy(
+                isLoading = true
+            )
             getEpisodesJob?.cancel() // Cancel the Job on each change to avoid multiple subscriptions
             getEpisodesJob = getEpisodesUseCase
                 .invoke(
                     searchQuery = searchQuery,
-                    season = episodeFilter.season
+                    season      = episodeFilter.season
                 )
                 .onEach { episodes ->
                     // With the copy, we retain all the values from current state and modify what we want
                     _state.value = state.value.copy(
-                        episodes = episodes,
+                        episodes              = episodes,
+                        isLoading             = false,
                         isNotFoundDataVisible = episodes.isEmpty()
                     )
                 }.launchIn(viewModelScope)
@@ -165,7 +169,7 @@ class EpisodesViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         season = season.map {
                             ItemDataFilter(
-                                label = it,
+                                label      = it,
                                 isSelected = episodeFilter.season.lowercase() == it.lowercase()
                             )
                         }

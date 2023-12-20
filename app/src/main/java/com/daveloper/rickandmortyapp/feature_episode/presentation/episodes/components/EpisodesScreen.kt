@@ -211,6 +211,9 @@ fun EpisodesScreen(
                             }
                         }
                     }
+                    if (state.isLoading) {
+                        EpisodesLoading()
+                    }
                     if (!state.isNotFoundDataVisible) {
                         LazyVerticalGrid(
                             modifier = Modifier.fillMaxSize(),
@@ -266,5 +269,24 @@ fun EpisodesScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+private fun EpisodesLoading(
+) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(
+            //horizontal = 4.dp
+        ),
+        //state = state,
+    ) {
+        items(
+            count = 10,
+        ) {
+            EpisodeShimmerItem()
+        }
     }
 }

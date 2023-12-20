@@ -313,7 +313,7 @@ fun CharactersScreen(
 }
 
 @Composable
-fun CharactersLoading(
+private fun CharactersLoading(
 ) {
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
