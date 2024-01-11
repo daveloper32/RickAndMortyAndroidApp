@@ -1,3 +1,35 @@
 <resources>
-    <string name="app_name">Rick &amp; Morty App</string>
+    <string name="app_name" translatable="false">Rick &amp; Morty App</string>
+    <string name="lab_not_found_data_error">No data found</string>
+    <string name="lab_not_results_found_error">No results found</string>
+    <string name="lab_please_try_another_search">Please try another search</string>
+    <string name="lab_not_internet_connection">You need internet to carry out this action</string>
+    <string name="lab_unknown_error">Unknown error</string>
+    <string name="lab_all">All</string>
+    <string name="lab_search">Search</string>
+    <string name="lab_life_status">Life status</string>
+    <string name="lab_species">Species</string>
+    <string name="lab_gender">Gender</string>
+    <string name="lab_season">Season</string>
+    <string name="lab_episode">Episode</string>
+    <string name="lab_season_number">Season # %d</string>
+    <string name="lab_episode_number">Episode # %d</string>
+    <string name="lab_season_and_episode_stamp">S%d.E%d</string>
+    <string name="lab_type">Type</string>
+    <string name="lab_dimension">Dimension</string>
+    <string name="lab_unknown">Unknown</string>
+    <string name="lab_home">Home</string>
+    <string name="lab_characters">Characters</string>
+    <string name="lab_episodes">Episodes</string>
+    <string name="lab_locations">Locations</string>
+    <string name="lab_app_version">v. %s</string>
+    <string name="lab_see_more">See more</string>
+    <string name="lab_character_details">Character Details</string>
+    <string name="lab_episode_details">Episode Details</string>
+    <string name="lab_location_details">Location Details</string>
+    <string name="lab_current_location">Current location</string>
+    <string name="lab_origin">Origin</string>
+    <string name="lab_air_date">Air date</string>
+    <string name="lab_residents">Residents</string>
+    <string name="lab_about">About</string>
 </resources>
